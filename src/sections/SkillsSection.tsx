@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { FadeIn } from '../components/FadeIn';
+import { InteractiveSkillsCanvas } from '../components/InteractiveSkillsCanvas';
 
 export const SkillsSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -32,7 +33,7 @@ export const SkillsSection: React.FC = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative w-full bg-[#0C0C0C] text-[#D7E2EA] pt-24 sm:pt-32 md:pt-44 pb-16 overflow-hidden z-20"
+      className="relative w-full bg-[#0C0C0C] text-[#D7E2EA] pt-24 sm:pt-32 md:pt-44 pb-0 overflow-hidden z-20"
     >
       {/* 1. Large Gradient "SKILLS" Heading Elevated Cleanly Above Him */}
       <div className="max-w-6xl mx-auto flex flex-col items-center px-4 mb-14 sm:mb-20 md:mb-28">
@@ -66,6 +67,11 @@ export const SkillsSection: React.FC = () => {
         {/* Subtle Top & Bottom Cinematic Edge Vignettes */}
         <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0C0C0C] to-transparent pointer-events-none z-10" />
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#0C0C0C] to-transparent pointer-events-none z-10" />
+      </div>
+
+      {/* 3. Interactive Kinetic 3D Skills Canvas (Mounted Down Below the Video) */}
+      <div className="relative z-20 w-full">
+        <InteractiveSkillsCanvas />
       </div>
     </section>
   );
