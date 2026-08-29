@@ -1,4 +1,5 @@
 import React from 'react';
+import { GooeyNav } from '../components/GooeyNav';
 
 interface VideoSource {
   mp4: string;
@@ -17,11 +18,14 @@ export const HERO_VIDEO_OPTIONS: Record<string, VideoSource> = {
 const CURRENT_SOURCE: VideoSource = HERO_VIDEO_OPTIONS.finalPort;
 
 export const HeroSection: React.FC = () => {
-  const navLinks = [
+  const navItems = [
+    { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
     { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Showcase', href: '#showcase' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   const handleScrollTo = (
@@ -30,6 +34,19 @@ export const HeroSection: React.FC = () => {
   ) => {
     e.preventDefault();
     const id = href.replace('#', '');
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleNavClick = (
+    item: { label: string; href: string },
+    _index: number,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    const id = item.href.replace('#', '');
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -59,37 +76,38 @@ export const HeroSection: React.FC = () => {
         )}
       </video>
 
-      {/* 2. Glassmorphic Navigation Bar */}
+      {/* 2. Glassmorphic Navigation Bar with React Bits GooeyNav */}
       <header className="relative z-10 w-full">
-        <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto w-full">
+        <nav className="flex items-center justify-between px-6 sm:px-8 py-6 max-w-7xl mx-auto w-full gap-4">
           {/* Logo / Brand */}
           <a
             href="#home"
             onClick={(e) => handleScrollTo(e, '#home')}
             style={{ fontFamily: "'Instrument Serif', serif" }}
-            className="text-3xl tracking-tight text-foreground select-none hover:opacity-80 transition-opacity"
+            className="text-2xl sm:text-3xl tracking-tight text-foreground select-none hover:opacity-80 transition-opacity whitespace-nowrap"
           >
             Kubendra Guru<sup className="text-xs">®</sup>
           </a>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
+          {/* Center: React Bits GooeyNav */}
+          <div className="hidden lg:flex items-center justify-center">
+            <GooeyNav
+              items={navItems}
+              particleCount={16}
+              particleDistances={[90, 10]}
+              particleR={100}
+              initialActiveIndex={0}
+              animationTime={600}
+              timeVariance={300}
+              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+              onItemClick={handleNavClick}
+            />
           </div>
 
           {/* Nav CTA Button */}
           <button
-            onClick={(e) => handleScrollTo(e, '#about')}
-            className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground hover:scale-[1.03] transition-transform duration-200 cursor-pointer uppercase tracking-wider font-medium"
+            onClick={(e) => handleScrollTo(e, '#contact')}
+            className="liquid-glass rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-foreground hover:scale-[1.03] transition-transform duration-200 cursor-pointer uppercase tracking-wider font-medium whitespace-nowrap"
           >
             Contact Me
           </button>

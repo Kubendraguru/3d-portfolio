@@ -5,6 +5,7 @@ import { ServicesSection } from './sections/ServicesSection';
 import { ProjectsSection } from './sections/ProjectsSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { IsometricShowcaseGrid } from './components/IsometricShowcaseGrid';
+import { ContactSection } from './sections/ContactSection';
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,9 @@ const App: React.FC = () => {
 
       {/* 6. Isometric 3D Perspective Card Gallery ("You Can Trust") */}
       <IsometricShowcaseGrid />
+
+      {/* 7. Contact Me Section with Left 3D Lanyard ID Card */}
+      <ContactSection />
     </main>
   );
 };

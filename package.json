@@ -9,11 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@react-three/rapier": "^1.5.0",
+    "@types/three": "^0.185.4",
     "framer-motion": "^12.38.0",
     "lucide-react": "^0.344.0",
+    "meshline": "^3.3.1",
     "motion": "^13.1.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
