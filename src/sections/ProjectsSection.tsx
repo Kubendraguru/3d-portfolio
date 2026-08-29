@@ -39,15 +39,21 @@ const PROJECTS: ProjectData[] = [
   },
   {
     number: '03',
-    name: 'Solaris Digital',
-    category: 'Client / Brand System',
+    name: 'Anna University Study Hub',
+    category: 'Full Stack Performance & Learning Platform',
     liveUrl: 'https://naks-frontend-9c8k-beige.vercel.app/',
-    col1Img1:
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
-    col1Img2:
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
-    col2Img:
-      'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
+    col1Img1: '/projects/anna_hub_1.jpg',
+    col1Img2: '/projects/anna_hub_2.jpg',
+    col2Img: '/projects/anna_hub_main.jpg',
+  },
+  {
+    number: '04',
+    name: 'Solespace — Haute Footwear',
+    category: '3D E-Commerce & Interactive Footwear',
+    liveUrl: 'https://soles-shoe.vercel.app/',
+    col1Img1: '/projects/soles_sneaker.jpg',
+    col1Img2: '/projects/soles_slider.jpg',
+    col2Img: '/projects/soles_showroom.jpg',
   },
 ];
 
@@ -188,7 +194,7 @@ export const ProjectsSection: React.FC = () => {
         <div className="w-full relative">
           {PROJECTS.map((project, index) => {
             const targetScale = 1 - (totalCards - 1 - index) * 0.03;
-            const range: [number, number] = [index * 0.33, 1];
+            const range: [number, number] = [index * (1 / totalCards), 1];
 
             return (
               <ProjectCard
