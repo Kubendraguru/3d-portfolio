@@ -69,8 +69,8 @@ export const SkillsSection: React.FC = () => {
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#0C0C0C] to-transparent pointer-events-none z-10" />
       </div>
 
-      {/* 3. Interactive Kinetic 3D Skills Canvas (Mounted Down Below the Video) */}
-      <div className="relative z-20 w-full">
+      {/* 3. Interactive Kinetic 3D Skills Canvas (Mounted with generous space gap below the video) */}
+      <div className="relative z-20 w-full pt-28 sm:pt-36 md:pt-44 pb-24">
         <InteractiveSkillsCanvas />
       </div>
     </section>

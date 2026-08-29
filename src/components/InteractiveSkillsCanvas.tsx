@@ -1,720 +1,1230 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FadeIn } from './FadeIn';
-import { Sparkles, Layers, Box, Code2, Cpu, Wrench, Bot, ExternalLink } from 'lucide-react';
+// Particle Saturn — Originkit with Magnetic Pull-Out Skill Cards
+// Originkit — props baked into the default export.
+"use client"
 
-export type TechCategory = 'all' | 'ai' | '3d' | 'frontend' | 'backend' | 'tools';
+import React, { useEffect, useRef, useState, useCallback } from "react"
+import * as THREE from "three"
+import { motion, AnimatePresence } from "framer-motion"
+import { Sparkles, Layers, Code2, Box, Bot, Cpu, Wrench } from "lucide-react"
+import { FadeIn } from "./FadeIn"
 
-export interface FloatingSkill {
-  id: string;
-  name: string;
-  category: TechCategory;
-  role: string;
-  x: number; // default % left
-  y: number; // default % top (cleanly between 6% and 66% so it stays completely above the bottom dock)
-  rotate: number;
-  glowColor: string;
-  floatClass: string;
-  hasHandCursor?: boolean;
-  logoUrl?: string;
-  svgFallback?: React.ReactNode;
+/* =========================================================
+   SKILLS DATA (With 1-Line Descriptions for Drag Cards)
+   ========================================================= */
+export interface RingSkill {
+  id: string
+  name: string
+  role: string
+  description: string
+  category: "frontend" | "creative" | "ai" | "backend" | "database" | "cloud" | "tools"
+  color: string
+  logoUrl: string
+  radiusFactor: number
+  initialAngle: number
 }
 
-export const FLOATING_SKILLS: FloatingSkill[] = [
-  // =========================================================================
-  // 1. CREATIVE TECHNOLOGY / 3D & MOTION
-  // =========================================================================
+const TECH_SKILLS: RingSkill[] = [
+  // Inner Ring Band
   {
-    id: 'threejs',
-    name: 'Three.js',
-    category: '3d',
-    role: 'WebGL 3D Engine',
-    x: 6,
-    y: 46,
-    rotate: 12,
-    glowColor: 'rgba(255, 255, 255, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/threejs/threejs-original.svg',
+    id: "react",
+    name: "React 19",
+    role: "Frontend UI Architecture",
+    description: "Component-based declarative UI architecture & server actions",
+    category: "frontend",
+    color: "#0284C7",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    radiusFactor: 0.12,
+    initialAngle: 0,
   },
   {
-    id: 'gsap',
-    name: 'GSAP',
-    category: '3d',
-    role: 'Kinetic Motion',
-    x: 58,
-    y: 8,
-    rotate: -10,
-    glowColor: 'rgba(136, 206, 2, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.simpleicons.org/greensock/88CE02',
+    id: "js",
+    name: "JavaScript",
+    role: "ESNext / V8 Engine",
+    description: "Modern ESNext asynchronous runtime & high-performance logic",
+    category: "frontend",
+    color: "#EAB308",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+    radiusFactor: 0.18,
+    initialAngle: (Math.PI * 2) / 8,
   },
   {
-    id: 'webgl',
-    name: 'WebGL',
-    category: '3d',
-    role: 'GPU Shaders',
-    x: 8,
-    y: 65,
-    rotate: -8,
-    glowColor: 'rgba(153, 0, 0, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.simpleicons.org/webgl/990000',
+    id: "threejs",
+    name: "Three.js",
+    role: "WebGL 3D Graphics",
+    description: "Interactive 3D WebGL scenes, custom shaders & particle physics",
+    category: "creative",
+    color: "#18181B",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/threejs/threejs-original.svg",
+    radiusFactor: 0.25,
+    initialAngle: (Math.PI * 4) / 8,
   },
   {
-    id: 'scrolltrigger',
-    name: 'ScrollTrigger',
-    category: '3d',
-    role: 'Scroll Orchestration',
-    x: 86,
-    y: 64,
-    rotate: 10,
-    glowColor: 'rgba(10, 228, 72, 0.45)',
-    floatClass: 'animate-float-1',
-    svgFallback: (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 pointer-events-none" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="#0AE448" strokeWidth="2" strokeDasharray="3 3" />
-        <circle cx="12" cy="12" r="4" fill="#0AE448" />
-        <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#0AE448" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
+    id: "chatgpt",
+    name: "ChatGPT",
+    role: "OpenAI GPT-4o",
+    description: "Generative LLM systems, prompt engineering & cognitive workflows",
+    category: "ai",
+    color: "#10A37F",
+    logoUrl: "https://cdn.simpleicons.org/openai/10A37F",
+    radiusFactor: 0.22,
+    initialAngle: (Math.PI * 6) / 8,
   },
   {
-    id: '3d_experiences',
-    name: '3D Experiences',
-    category: '3d',
-    role: 'Spatial Web',
-    x: 18,
-    y: 66,
-    rotate: -6,
-    glowColor: 'rgba(56, 189, 248, 0.45)',
-    floatClass: 'animate-float-2',
-    svgFallback: (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 pointer-events-none" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M2 17L12 22L22 17" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M2 12L12 17L22 12" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="12" cy="12" r="2" fill="#38BDF8" />
-      </svg>
-    ),
+    id: "tailwind",
+    name: "Tailwind CSS",
+    role: "Utility CSS Design",
+    description: "Rapid responsive styling with utility-first modern design systems",
+    category: "frontend",
+    color: "#06B6D4",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+    radiusFactor: 0.28,
+    initialAngle: (Math.PI * 8) / 8,
   },
   {
-    id: 'interactive_interfaces',
-    name: 'Interactive Interfaces',
-    category: '3d',
-    role: 'Spatial UI / UX',
-    x: 64,
-    y: 64,
-    rotate: 8,
-    glowColor: 'rgba(168, 85, 247, 0.45)',
-    floatClass: 'animate-float-3',
-    svgFallback: (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 pointer-events-none" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="3" width="18" height="18" rx="5" stroke="#A855F7" strokeWidth="1.8" />
-        <path d="M9 12h6M12 9v6" stroke="#A855F7" strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="16" cy="8" r="1.5" fill="#A855F7" />
-      </svg>
-    ),
+    id: "nodejs",
+    name: "Node.js",
+    role: "High-Throughput Backend",
+    description: "Event-driven asynchronous server runtime & scalable microservices",
+    category: "backend",
+    color: "#16A34A",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+    radiusFactor: 0.15,
+    initialAngle: (Math.PI * 10) / 8,
   },
   {
-    id: 'scroll_animation',
-    name: 'Scroll Animation',
-    category: '3d',
-    role: 'Timeline Scrubbing',
-    x: 76,
-    y: 48,
-    rotate: -8,
-    glowColor: 'rgba(245, 158, 11, 0.45)',
-    floatClass: 'animate-float-1',
-    svgFallback: (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 pointer-events-none" viewBox="0 0 24 24" fill="none">
-        <rect x="6" y="2" width="12" height="20" rx="6" stroke="#F59E0B" strokeWidth="1.8" />
-        <path d="M12 6v4" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
-        <path d="M3 12h2M19 12h2" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    ),
+    id: "supabase",
+    name: "Supabase",
+    role: "PostgreSQL BaaS",
+    description: "Realtime PostgreSQL backend-as-a-service with edge authentication",
+    category: "backend",
+    color: "#3ECF8E",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
+    radiusFactor: 0.2,
+    initialAngle: (Math.PI * 12) / 8,
   },
   {
-    id: 'motion_design',
-    name: 'Motion Design',
-    category: '3d',
-    role: 'Kinetic Choreography',
-    x: 82,
-    y: 18,
-    rotate: -10,
-    glowColor: 'rgba(236, 72, 153, 0.45)',
-    floatClass: 'animate-float-2',
-    svgFallback: (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 pointer-events-none" viewBox="0 0 24 24" fill="none">
-        <path d="M3 18C7 18 8 6 12 6C16 6 17 18 21 18" stroke="#EC4899" strokeWidth="2.2" strokeLinecap="round" />
-        <circle cx="12" cy="6" r="2" fill="#EC4899" />
-      </svg>
-    ),
+    id: "figma",
+    name: "Figma",
+    role: "UI/UX & Prototyping",
+    description: "Collaborative vector UI/UX design, interactive wireframes & systems",
+    category: "creative",
+    color: "#F24E1E",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",
+    radiusFactor: 0.26,
+    initialAngle: (Math.PI * 14) / 8,
   },
 
-  // =========================================================================
-  // 2. AI & AGENTS
-  // =========================================================================
+  // Mid Ring Band
   {
-    id: 'claude',
-    name: 'Claude',
-    category: 'ai',
-    role: 'Anthropic AI',
-    x: 74,
-    y: 10,
-    rotate: 8,
-    glowColor: 'rgba(217, 119, 87, 0.45)',
-    floatClass: 'animate-float-1',
-    hasHandCursor: true,
-    logoUrl: 'https://cdn.simpleicons.org/anthropic/D97757',
+    id: "claude",
+    name: "Claude AI",
+    role: "Anthropic Neural Models",
+    description: "Deep reasoning, code synthesis & contextual agent pipelines",
+    category: "ai",
+    color: "#D97757",
+    logoUrl: "https://cdn.simpleicons.org/anthropic/D97757",
+    radiusFactor: 0.45,
+    initialAngle: 0.4,
   },
   {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    category: 'ai',
-    role: 'OpenAI LLM',
-    x: 10,
-    y: 10,
-    rotate: -10,
-    glowColor: 'rgba(16, 163, 127, 0.45)',
-    floatClass: 'animate-float-2',
-    svgFallback: (
-      <svg className="w-9 h-9 sm:w-11 sm:h-11" viewBox="0 0 24 24" fill="#10A37F">
-        <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.98 4.182a5.985 5.985 0 0 0-3.997 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.08 4.779-2.76a.795.795 0 0 0 .393-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.495 4.495zm-9.661-4.126a4.47 4.47 0 0 1-.535-3.013l.142.085 4.783 2.758a.771.771 0 0 0 .78 0l5.843-3.368v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.141-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.814 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.787A4.504 4.504 0 0 1 2.34 7.896zm16.1 3.855l-5.843-3.368 5.843-3.369a.076.076 0 0 1 .071 0l4.83 2.791a4.495 4.495 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.388-.681zm2.01-3.023l-.142-.085-4.773-2.782a.776.776 0 0 0-.785 0L9.407 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.499 4.499 0 0 1 6.68 4.66zM8.307 12.863l-2.02-1.164a.08.08 0 0 1-.038-.057V6.074a4.499 4.499 0 0 1 7.375-3.454l-.141.08-4.779 2.759a.795.795 0 0 0-.393.681v6.723zm2.441-2.825l2.754-1.589 2.753 1.589v3.178l-2.753 1.588-2.754-1.588z" />
-      </svg>
-    ),
+    id: "aws",
+    name: "AWS",
+    role: "Cloud Infrastructure",
+    description: "Scalable cloud infrastructure, S3 storage & serverless Lambdas",
+    category: "cloud",
+    color: "#FF9900",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    radiusFactor: 0.5,
+    initialAngle: 1.2,
   },
   {
-    id: 'antigravity',
-    name: 'Antigravity',
-    category: 'ai',
-    role: 'DeepMind Agent',
-    x: 88,
-    y: 62,
-    rotate: -6,
-    glowColor: 'rgba(66, 133, 244, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.simpleicons.org/google/4285F4',
+    id: "mongodb",
+    name: "MongoDB",
+    role: "NoSQL Database",
+    description: "Flexible document database for high-scale distributed schemas",
+    category: "database",
+    color: "#15803D",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+    radiusFactor: 0.55,
+    initialAngle: 2.0,
   },
   {
-    id: 'gemini',
-    name: 'Gemini',
-    category: 'ai',
-    role: 'Google AI',
-    x: 44,
-    y: 6,
-    rotate: 4,
-    glowColor: 'rgba(78, 136, 212, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.simpleicons.org/googlegemini/4E88D4',
+    id: "docker",
+    name: "Docker",
+    role: "Container Architecture",
+    description: "Containerized application environments & microservice orchestration",
+    category: "cloud",
+    color: "#0284C7",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    radiusFactor: 0.48,
+    initialAngle: 2.8,
   },
   {
-    id: 'copilot',
-    name: 'GitHub Copilot',
-    category: 'ai',
-    role: 'AI Pair Programmer',
-    x: 78,
-    y: 30,
-    rotate: 6,
-    glowColor: 'rgba(112, 71, 235, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.simpleicons.org/githubcopilot/7047EB',
+    id: "html5",
+    name: "HTML5",
+    role: "Semantic Web Structure",
+    description: "Semantic document markup, accessibility & modern browser standards",
+    category: "frontend",
+    color: "#EA580C",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    radiusFactor: 0.52,
+    initialAngle: 3.6,
   },
   {
-    id: 'n8n',
-    name: 'n8n',
-    category: 'ai',
-    role: 'Automation',
-    x: 20,
-    y: 32,
-    rotate: -8,
-    glowColor: 'rgba(234, 75, 113, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.simpleicons.org/n8n/EA4B71',
-  },
-
-  // =========================================================================
-  // 3. FRONTEND & CORE STACK
-  // =========================================================================
-  {
-    id: 'html5',
-    name: 'HTML5',
-    category: 'frontend',
-    role: 'Semantic Structure',
-    x: 14,
-    y: 48,
-    rotate: -6,
-    glowColor: 'rgba(227, 79, 38, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    id: "mysql",
+    name: "MySQL",
+    role: "Relational SQL Engine",
+    description: "ACID-compliant relational database management & query indexing",
+    category: "database",
+    color: "#0284C7",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
+    radiusFactor: 0.46,
+    initialAngle: 4.4,
   },
   {
-    id: 'css3',
-    name: 'CSS3',
-    category: 'frontend',
-    role: 'Modern Layouts',
-    x: 32,
-    y: 12,
-    rotate: 8,
-    glowColor: 'rgba(21, 114, 182, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg',
+    id: "ai_agents",
+    name: "AI Agents",
+    role: "Autonomous Agentic Pipelines",
+    description: "Multi-agent autonomous systems, tool calling & automated execution",
+    category: "ai",
+    color: "#7C3AED",
+    logoUrl: "https://cdn.simpleicons.org/robotframework/7C3AED",
+    radiusFactor: 0.56,
+    initialAngle: 5.2,
   },
   {
-    id: 'bootstrap',
-    name: 'Bootstrap',
-    category: 'frontend',
-    role: 'Responsive Framework',
-    x: 34,
-    y: 50,
-    rotate: -10,
-    glowColor: 'rgba(121, 82, 179, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg',
-  },
-  {
-    id: 'react',
-    name: 'React 19',
-    category: 'frontend',
-    role: 'Core Frontend',
-    x: 24,
-    y: 8,
-    rotate: 6,
-    glowColor: 'rgba(97, 218, 251, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
-  },
-  {
-    id: 'typescript',
-    name: 'TypeScript',
-    category: 'frontend',
-    role: 'Type System',
-    x: 28,
-    y: 66,
-    rotate: 8,
-    glowColor: 'rgba(49, 120, 198, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
-  },
-  {
-    id: 'javascript',
-    name: 'JavaScript',
-    category: 'frontend',
-    role: 'ESNext Web',
-    x: 4,
-    y: 28,
-    rotate: -12,
-    glowColor: 'rgba(247, 223, 30, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
-  },
-  {
-    id: 'nextjs',
-    name: 'Next.js',
-    category: 'frontend',
-    role: 'Full Stack App',
-    x: 66,
-    y: 66,
-    rotate: -10,
-    glowColor: 'rgba(255, 255, 255, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg',
-  },
-  {
-    id: 'tailwind',
-    name: 'Tailwind CSS',
-    category: 'frontend',
-    role: 'Styling Engine',
-    x: 22,
-    y: 34,
-    rotate: 10,
-    glowColor: 'rgba(6, 182, 212, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+    id: "firebase",
+    name: "Firebase",
+    role: "Realtime Database & Auth",
+    description: "Realtime cloud document sync, analytics & serverless triggers",
+    category: "backend",
+    color: "#F59E0B",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg",
+    radiusFactor: 0.53,
+    initialAngle: 5.9,
   },
 
-  // =========================================================================
-  // 4. BACKEND & CLOUD
-  // =========================================================================
+  // Outer Ring Band
   {
-    id: 'supabase',
-    name: 'Supabase',
-    category: 'backend',
-    role: 'Database & Auth',
-    x: 40,
-    y: 66,
-    rotate: -6,
-    glowColor: 'rgba(62, 207, 142, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg',
+    id: "gsap",
+    name: "GSAP",
+    role: "Interactive Timelines",
+    description: "Ultra high-performance timeline animations & scroll choreography",
+    category: "creative",
+    color: "#84CC16",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gsap/gsap-original.svg",
+    radiusFactor: 0.78,
+    initialAngle: 0.2,
   },
   {
-    id: 'nodejs',
-    name: 'Node.js',
-    category: 'backend',
-    role: 'V8 Runtime',
-    x: 54,
-    y: 66,
-    rotate: 8,
-    glowColor: 'rgba(95, 160, 78, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg',
+    id: "github",
+    name: "GitHub",
+    role: "CI/CD Actions & Repos",
+    description: "Git version control, CI/CD automation & repository management",
+    category: "tools",
+    color: "#181717",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
+    radiusFactor: 0.84,
+    initialAngle: 1.1,
   },
   {
-    id: 'postgresql',
-    name: 'PostgreSQL',
-    category: 'backend',
-    role: 'SQL Database',
-    x: 76,
-    y: 48,
-    rotate: -8,
-    glowColor: 'rgba(65, 105, 225, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg',
+    id: "vercel",
+    name: "Vercel",
+    role: "Serverless Edge Cloud",
+    description: "Global edge network deployments, serverless functions & automated CI",
+    category: "cloud",
+    color: "#181717",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg",
+    radiusFactor: 0.8,
+    initialAngle: 2.1,
   },
   {
-    id: 'mongodb',
-    name: 'MongoDB',
-    category: 'backend',
-    role: 'NoSQL Database',
-    x: 3,
-    y: 8,
-    rotate: 6,
-    glowColor: 'rgba(71, 162, 72, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg',
+    id: "php",
+    name: "PHP",
+    role: "Backend Architecture",
+    description: "Server-side web scripting, robust REST APIs & backend frameworks",
+    category: "backend",
+    color: "#6366F1",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
+    radiusFactor: 0.86,
+    initialAngle: 3.1,
   },
   {
-    id: 'docker',
-    name: 'Docker',
-    category: 'backend',
-    role: 'Containers',
-    x: 16,
-    y: 64,
-    rotate: 8,
-    glowColor: 'rgba(36, 150, 237, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
+    id: "vite",
+    name: "Vite",
+    role: "Modern Frontend Tooling",
+    description: "Blazing fast ESM bundler with instant HMR development environment",
+    category: "frontend",
+    color: "#6366F1",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg",
+    radiusFactor: 0.82,
+    initialAngle: 4.1,
   },
   {
-    id: 'aws',
-    name: 'AWS',
-    category: 'backend',
-    role: 'Cloud Infrastructure',
-    x: 88,
-    y: 22,
-    rotate: -10,
-    glowColor: 'rgba(255, 153, 0, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+    id: "flutter",
+    name: "Flutter",
+    role: "Cross-Platform Mobile/Web",
+    description: "Cross-platform native mobile & desktop application development",
+    category: "frontend",
+    color: "#0284C7",
+    logoUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg",
+    radiusFactor: 0.88,
+    initialAngle: 5.1,
   },
+]
 
-  // =========================================================================
-  // 5. DESIGN & TOOLS
-  // =========================================================================
-  {
-    id: 'figma',
-    name: 'Figma',
-    category: 'tools',
-    role: 'UI/UX Design',
-    x: 88,
-    y: 42,
-    rotate: 8,
-    glowColor: 'rgba(242, 78, 30, 0.45)',
-    floatClass: 'animate-float-2',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg',
-  },
-  {
-    id: 'canva',
-    name: 'Canva',
-    category: 'tools',
-    role: 'Visual Assets & Media',
-    x: 80,
-    y: 28,
-    rotate: -6,
-    glowColor: 'rgba(0, 196, 204, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg',
-  },
-  {
-    id: 'vscode',
-    name: 'VS Code',
-    category: 'tools',
-    role: 'Primary IDE',
-    x: 86,
-    y: 6,
-    rotate: -12,
-    glowColor: 'rgba(0, 122, 204, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg',
-  },
-  {
-    id: 'git',
-    name: 'Git',
-    category: 'tools',
-    role: 'Version Control',
-    x: 8,
-    y: 26,
-    rotate: 6,
-    glowColor: 'rgba(240, 80, 50, 0.45)',
-    floatClass: 'animate-float-1',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg',
-  },
-  {
-    id: 'postman',
-    name: 'Postman',
-    category: 'tools',
-    role: 'API Diagnostics',
-    x: 88,
-    y: 52,
-    rotate: 10,
-    glowColor: 'rgba(255, 108, 55, 0.45)',
-    floatClass: 'animate-float-3',
-    logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg',
-  },
-];
+const FILTERS = [
+  { id: "all", label: "ALL ORBITS", icon: Layers },
+  { id: "frontend", label: "FRONTEND", icon: Code2 },
+  { id: "creative", label: "CREATIVE & 3D", icon: Box },
+  { id: "ai", label: "AI & AGENTS", icon: Bot },
+  { id: "backend", label: "BACKEND", icon: Cpu },
+  { id: "database", label: "DATABASES", icon: Cpu },
+  { id: "cloud", label: "CLOUD & DEVOPS", icon: Wrench },
+]
 
-const FILTERS: { id: TechCategory; label: string; icon: React.ElementType }[] = [
-  { id: 'all', label: 'ALL', icon: Layers },
-  { id: '3d', label: 'CREATIVE TECH', icon: Box },
-  { id: 'ai', label: 'AI & AGENTS', icon: Bot },
-  { id: 'frontend', label: 'FRONTEND', icon: Code2 },
-  { id: 'backend', label: 'BACKEND & CLOUD', icon: Cpu },
-  { id: 'tools', label: 'DESIGN & TOOLS', icon: Wrench },
-];
+/* =========================================================
+   ORIGINKIT PARTICLE SATURN ENGINE
+   ========================================================= */
 
-export const InteractiveSkillsCanvas: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<TechCategory>('all');
-  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
+const PERSPECTIVE = 0.15
+const VIEW_SPAN = 6.4
+const CORE_RADIUS = 1
+const MAX_MOTES = 85000
+const RING_THICKNESS = 0.012
+const RING_MOTE_FACTOR = 1.35
 
-  const filteredTiles = FLOATING_SKILLS.filter(
-    (tile) => activeCategory === 'all' || tile.category === activeCategory
-  );
+const DEFAULTS = {
+  coreColor: "#60A5FA",
+  ringColor: "#00E5FF",
+  density: 16,
+  particleSize: 14,
+  glow: 18,
+  tilt: 8,
+  roll: 10,
+  spinSpeed: 6,
+  ringOptions: {
+    defaultValue: { gaps: 2, orbitSpeed: 8, innerRadius: 135, outerRadius: 260 },
+    innerRadius: 135,
+    outerRadius: 260,
+    gaps: 2,
+    orbitSpeed: 8,
+  },
+  dragSensitivity: 2,
+  sizePercent: 125,
+}
+
+type RingOptions = {
+  innerRadius: number
+  outerRadius: number
+  gaps: number
+  orbitSpeed: number
+}
+
+type Config = {
+  coreColor: string
+  ringColor: string
+  density: number
+  particleSize: number
+  glow: number
+  tilt: number
+  roll: number
+  spinSpeed: number
+  ringOptions: RingOptions
+  dragSensitivity: number
+  sizePercent: number
+}
+
+function clamp(v: number, lo: number, hi: number, fallback: number): number {
+  const n = typeof v === "number" && isFinite(v) ? v : fallback
+  return Math.max(lo, Math.min(hi, n))
+}
+
+function settingsFor(cfg: Config) {
+  const ring = cfg.ringOptions ?? DEFAULTS.ringOptions
+  const density = clamp(cfg.density, 1, 20, DEFAULTS.density)
+  const baseMotes = 500 + density * density * 75
+  const coreMotes = Math.min(MAX_MOTES, Math.round(baseMotes))
+  const ringMotes = Math.min(MAX_MOTES, Math.round(baseMotes * RING_MOTE_FACTOR))
+
+  const innerFraction = clamp(ring.innerRadius, 105, 200, DEFAULTS.ringOptions.innerRadius) / 100
+  const outerFraction = clamp(ring.outerRadius, 110, 300, DEFAULTS.ringOptions.outerRadius) / 100
+
+  return {
+    coreMotes,
+    ringMotes,
+    moteSize: 0.5 + clamp(cfg.particleSize, 1, 20, DEFAULTS.particleSize) * 0.12,
+    glow: 0.15 + clamp(cfg.glow, 1, 20, DEFAULTS.glow) * 0.05,
+    tiltRadians: (clamp(cfg.tilt, -80, 80, DEFAULTS.tilt) * Math.PI) / 180,
+    rollRadians: (clamp(cfg.roll, -90, 90, DEFAULTS.roll) * Math.PI) / 180,
+    spinRate: clamp(cfg.spinSpeed, 0, 20, DEFAULTS.spinSpeed) * 0.04,
+    innerRadius: innerFraction * CORE_RADIUS,
+    outerRadius: Math.max(innerFraction + 0.08, outerFraction) * CORE_RADIUS,
+    gapCount: Math.round(clamp(ring.gaps, 0, 4, DEFAULTS.ringOptions.gaps)),
+    ringThickness: RING_THICKNESS,
+    orbitRate: clamp(ring.orbitSpeed, 0, 20, DEFAULTS.ringOptions.orbitSpeed) * 0.1,
+  }
+}
+
+type Settings = ReturnType<typeof settingsFor>
+
+function insideGap(S: Settings, radius: number, span: number): boolean {
+  for (let g = 0; g < S.gapCount; g++) {
+    const centre = S.innerRadius + span * ((g + 1) / (S.gapCount + 1))
+    const halfWidth = span * (0.075 - g * 0.011)
+    if (Math.abs(radius - centre) < halfWidth) return true
+  }
+  return false
+}
+
+function pickRingRadius(S: Settings, span: number): number {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const u = Math.sqrt(Math.random())
+    const radius = S.innerRadius + u * span
+    if (!insideGap(S, radius, span)) return radius
+  }
+  return S.outerRadius
+}
+
+function buildCloud(S: Settings): THREE.BufferGeometry {
+  const count = S.coreMotes + S.ringMotes
+  const position = new Float32Array(count * 3)
+  const kind = new Float32Array(count)
+  const along = new Float32Array(count)
+  const seed = new Float32Array(count)
+  const radius = new Float32Array(count)
+
+  for (let i = 0; i < S.coreMotes; i++) {
+    kind[i] = 0
+    along[i] = (i + 0.5) / S.coreMotes
+    seed[i] = Math.random()
+    radius[i] = 0
+  }
+
+  const span = S.outerRadius - S.innerRadius
+  for (let i = 0; i < S.ringMotes; i++) {
+    const k = S.coreMotes + i
+    kind[k] = 1
+    along[k] = i / Math.max(1, S.ringMotes - 1)
+    seed[k] = Math.random()
+    radius[k] = pickRingRadius(S, span)
+  }
+
+  const geometry = new THREE.BufferGeometry()
+  geometry.setAttribute("position", new THREE.BufferAttribute(position, 3))
+  geometry.setAttribute("aKind", new THREE.BufferAttribute(kind, 1))
+  geometry.setAttribute("aAlong", new THREE.BufferAttribute(along, 1))
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seed, 1))
+  geometry.setAttribute("aRadius", new THREE.BufferAttribute(radius, 1))
+  return geometry
+}
+
+const SATURN_VERTEX = /* glsl */ `
+    attribute float aKind;
+    attribute float aAlong;
+    attribute float aSeed;
+    attribute float aRadius;
+
+    uniform float uTime;
+    uniform float uMoteSize;
+    uniform float uOrbitRate;
+    uniform float uRingThickness;
+    uniform float uCoreRadius;
+    uniform float uPixelRatio;
+
+    varying float vKind;
+    varying float vBright;
+
+    const float TAU = 6.28318530718;
+
+    float hash11(float n) {
+        return fract(sin(n * 78.233) * 43758.5453);
+    }
+
+    void main() {
+        vec3 modelPos;
+        float bright = 1.0;
+
+        if (aKind < 0.5) {
+            float y = 1.0 - aAlong * 2.0;
+            float ringRadius = sqrt(max(0.0, 1.0 - y * y));
+            float theta = aAlong * 2399.96;
+            modelPos = vec3(cos(theta) * ringRadius, y, sin(theta) * ringRadius) * uCoreRadius;
+            modelPos *= 1.0 + (hash11(aSeed * 91.7) - 0.5) * 0.012;
+            bright = 0.85 + hash11(aSeed * 13.1) * 0.55;
+        } else {
+            float orbitRadius = aRadius;
+            float rate = uOrbitRate / pow(max(orbitRadius, 0.2), 1.5);
+            float theta = aSeed * TAU + uTime * rate;
+            float lift = (hash11(aSeed * 37.9) - 0.5) * 2.0 * uRingThickness;
+            modelPos = vec3(cos(theta) * orbitRadius, lift, sin(theta) * orbitRadius);
+            float lane = hash11(floor(orbitRadius * 46.0));
+            bright = (0.45 + lane * 0.85) * (0.7 + hash11(aSeed * 5.3) * 0.6);
+        }
+
+        vec4 viewPos = modelViewMatrix * vec4(modelPos, 1.0);
+        vec3 modelCentre = modelViewMatrix[3].xyz;
+        vec3 fromCamera = viewPos.xyz;
+        float rayLength = max(length(fromCamera), 1e-5);
+        vec3 rayDir = fromCamera / rayLength;
+
+        float alongRay = dot(modelCentre, rayDir);
+        float offAxis = length(modelCentre - rayDir * alongRay);
+
+        bool occluded;
+        if (aKind < 0.5) {
+            occluded = dot(viewPos.xyz - modelCentre, rayDir) > 0.0;
+        } else {
+            float inside = uCoreRadius * uCoreRadius - offAxis * offAxis;
+            float nearHit = alongRay - sqrt(max(inside, 0.0));
+            occluded = inside > 0.0 && rayLength > nearHit;
+        }
+
+        if (occluded) {
+            gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
+            gl_PointSize = 0.0;
+            vKind = aKind;
+            vBright = 0.0;
+            return;
+        }
+
+        gl_Position = projectionMatrix * viewPos;
+        gl_PointSize = uMoteSize * uPixelRatio * (9.5 / max(0.001, -viewPos.z));
+
+        vKind = aKind;
+        vBright = bright;
+    }
+`
+
+const SATURN_FRAGMENT = /* glsl */ `
+    precision highp float;
+
+    uniform vec3 uCoreColor;
+    uniform vec3 uRingColor;
+    uniform float uGlow;
+
+    varying float vKind;
+    varying float vBright;
+
+    void main() {
+        float d = length(gl_PointCoord - 0.5) * 2.0;
+        if (d > 1.0) discard;
+
+        float fall = 1.0 - d;
+        float shape = pow(fall, 4.5) + pow(fall, 1.4) * 0.4;
+
+        vec3 col = vKind < 0.5 ? uCoreColor : uRingColor;
+        float a = shape * vBright * (0.45 + uGlow);
+
+        gl_FragColor = vec4(col * a, a);
+    }
+`
+
+export interface ProjectedBadge {
+  id: string
+  x: number
+  y: number
+  scale: number
+  opacity: number
+  isBehind: boolean
+  depth: number
+}
+
+class SaturnScene {
+  private container: HTMLElement
+  private cfg: Config
+
+  private renderer: THREE.WebGLRenderer
+  private scene = new THREE.Scene()
+  private camera = new THREE.PerspectiveCamera(30, 1, 0.1, 2000)
+  private group = new THREE.Group()
+
+  private cloudGeometry: THREE.BufferGeometry
+  private material: THREE.ShaderMaterial
+  private cloud: THREE.Points
+
+  private time = 0
+  private spinAngle = 0
+  private dragYaw = 0
+  private dragPitch = 0
+  private velocityYaw = 0
+  private velocityPitch = 0
+  private isDragging = false
+  private lastX = 0
+  private lastY = 0
+
+  private width = 0
+  private height = 0
+  private frameId = 0
+  private lastT = 0
+  private disposed = false
+
+  public onUpdateBadges?: (badges: Record<string, ProjectedBadge>) => void
+
+  constructor(container: HTMLElement, cfg: Config) {
+    this.container = container
+    this.cfg = cfg
+    const S = settingsFor(cfg)
+
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    this.renderer.setPixelRatio(dpr)
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace
+    this.renderer.setClearColor(0x000000, 0)
+    const el = this.renderer.domElement
+    el.style.position = "absolute"
+    el.style.inset = "0"
+    el.style.width = "100%"
+    el.style.height = "100%"
+    el.style.cursor = "grab"
+    el.style.touchAction = "none"
+    container.appendChild(el)
+
+    this.material = new THREE.ShaderMaterial({
+      vertexShader: SATURN_VERTEX,
+      fragmentShader: SATURN_FRAGMENT,
+      uniforms: {
+        uTime: { value: 0 },
+        uMoteSize: { value: S.moteSize },
+        uOrbitRate: { value: S.orbitRate },
+        uRingThickness: { value: S.ringThickness },
+        uCoreRadius: { value: CORE_RADIUS },
+        uPixelRatio: { value: dpr },
+        uCoreColor: { value: new THREE.Color(cfg.coreColor) },
+        uRingColor: { value: new THREE.Color(cfg.ringColor) },
+        uGlow: { value: S.glow },
+      },
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      depthTest: false,
+    })
+
+    this.cloudGeometry = buildCloud(S)
+    this.cloud = new THREE.Points(this.cloudGeometry, this.material)
+    this.cloud.frustumCulled = false
+    this.group.add(this.cloud)
+
+    this.group.rotation.order = "ZXY"
+    this.scene.add(this.group)
+
+    this.bindEvents()
+  }
+
+  private bindEvents() {
+    const el = this.renderer.domElement
+
+    const down = (e: PointerEvent) => {
+      if ((e.target as HTMLElement)?.closest(".skill-badge-node") || (e.target as HTMLElement)?.closest(".detached-skill-card")) return
+      this.isDragging = true
+      this.lastX = e.clientX
+      this.lastY = e.clientY
+      this.velocityYaw = 0
+      this.velocityPitch = 0
+      el.style.cursor = "grabbing"
+    }
+    const move = (e: PointerEvent) => {
+      if (!this.isDragging) return
+      const dx = e.clientX - this.lastX
+      const dy = e.clientY - this.lastY
+      this.lastX = e.clientX
+      this.lastY = e.clientY
+      const s = clamp(this.cfg.dragSensitivity, 0, 10, 3) * 0.007
+      this.dragYaw += dx * s
+      this.dragPitch += dy * s
+      this.velocityYaw = dx * s
+      this.velocityPitch = dy * s
+    }
+    const up = () => {
+      this.isDragging = false
+      el.style.cursor = "grab"
+    }
+
+    el.addEventListener("pointerdown", down)
+    window.addEventListener("pointermove", move)
+    window.addEventListener("pointerup", up)
+    window.addEventListener("pointercancel", up)
+
+    this.unbind = () => {
+      el.removeEventListener("pointerdown", down)
+      window.removeEventListener("pointermove", move)
+      window.removeEventListener("pointerup", up)
+      window.removeEventListener("pointercancel", up)
+    }
+  }
+
+  private unbind = () => {}
+
+  start() {
+    this.lastT = performance.now()
+    const loop = () => {
+      this.frameId = requestAnimationFrame(loop)
+      this.step()
+    }
+    loop()
+  }
+
+  setSize(width: number, height: number) {
+    if (this.disposed || width <= 0 || height <= 0) return
+    this.width = width
+    this.height = height
+    this.renderer.setSize(width, height, false)
+    this.updateCamera()
+  }
+
+  updateConfig(cfg: Config) {
+    if (this.disposed) return
+    const prev = this.cfg
+    this.cfg = cfg
+    const S = settingsFor(cfg)
+    const u = this.material.uniforms
+
+    u.uMoteSize.value = S.moteSize
+    u.uOrbitRate.value = S.orbitRate
+    u.uRingThickness.value = S.ringThickness
+    u.uGlow.value = S.glow
+    u.uCoreColor.value.set(cfg.coreColor || "#60A5FA")
+    u.uRingColor.value.set(cfg.ringColor || "#00E5FF")
+
+    const prevRing = prev.ringOptions ?? DEFAULTS.ringOptions
+    const nextRing = cfg.ringOptions ?? DEFAULTS.ringOptions
+    const cloudChanged =
+      cfg.density !== prev.density ||
+      nextRing.innerRadius !== prevRing.innerRadius ||
+      nextRing.outerRadius !== prevRing.outerRadius ||
+      nextRing.gaps !== prevRing.gaps
+
+    if (cloudChanged) {
+      const next = buildCloud(S)
+      this.cloudGeometry.dispose()
+      this.cloudGeometry = next
+      this.cloud.geometry = next
+    }
+
+    this.updateCamera()
+  }
+
+  private updateCamera() {
+    const w = Math.max(1, this.width)
+    const h = Math.max(1, this.height)
+    const aspect = w / h
+    const distance = 1 / PERSPECTIVE
+    const sizePct = clamp(this.cfg.sizePercent, 20, 200, 90)
+
+    const span = VIEW_SPAN * (100 / sizePct)
+    const visibleHeight = aspect < 1 ? span / aspect : span
+
+    this.camera.aspect = aspect
+    this.camera.position.set(0, 0, distance)
+    this.camera.lookAt(0, 0, 0)
+    this.camera.fov = 2 * Math.atan(visibleHeight / 2 / distance) * (180 / Math.PI)
+    this.camera.near = Math.max(0.1, distance - 20)
+    this.camera.far = distance + 20
+    this.camera.updateProjectionMatrix()
+  }
+
+  private step() {
+    if (this.disposed) return
+    const now = performance.now()
+    let dt = (now - this.lastT) / 1000
+    this.lastT = now
+    if (!isFinite(dt) || dt < 0) dt = 0
+    if (dt > 0.05) dt = 0.05
+
+    const S = settingsFor(this.cfg)
+    this.time += dt
+
+    if (!this.isDragging) {
+      const decay = Math.exp(-dt * 3)
+      this.dragYaw += this.velocityYaw
+      this.dragPitch += this.velocityPitch
+      this.velocityYaw *= decay
+      this.velocityPitch *= decay
+      this.spinAngle += S.spinRate * dt
+    }
+
+    const pitch = Math.max(-1.2, Math.min(1.2, this.dragPitch))
+    this.group.rotation.set(
+      S.tiltRadians + pitch,
+      this.dragYaw + this.spinAngle,
+      S.rollRadians
+    )
+
+    this.material.uniforms.uTime.value = this.time
+    this.renderer.render(this.scene, this.camera)
+
+    // Calculate 3D Orbit Position for Skills
+    if (this.onUpdateBadges && this.width > 0 && this.height > 0) {
+      this.group.updateMatrixWorld(true)
+      this.camera.updateMatrixWorld(true)
+
+      const badgeCoords: Record<string, ProjectedBadge> = {}
+      const modelCentre = new THREE.Vector3().setFromMatrixPosition(this.group.matrixWorld).applyMatrix4(this.camera.matrixWorldInverse)
+      const span = S.outerRadius - S.innerRadius
+
+      for (let i = 0; i < TECH_SKILLS.length; i++) {
+        const skill = TECH_SKILLS[i]
+        const radius = S.innerRadius + skill.radiusFactor * span
+        const rate = (S.orbitRate * 0.65) / Math.pow(Math.max(radius, 0.2), 1.5)
+        const theta = skill.initialAngle + this.time * rate
+
+        const localPos = new THREE.Vector3(
+          Math.cos(theta) * radius,
+          0,
+          Math.sin(theta) * radius
+        )
+
+        const worldPos = localPos.clone().applyMatrix4(this.group.matrixWorld)
+        const viewPos = worldPos.clone().applyMatrix4(this.camera.matrixWorldInverse)
+
+        // Occlusion Check with Saturn Core Sphere
+        const fromCam = viewPos.clone()
+        const rayLen = Math.max(fromCam.length(), 1e-4)
+        const rayDir = fromCam.clone().divideScalar(rayLen)
+        const alongRay = modelCentre.dot(rayDir)
+        const perpDist = modelCentre.clone().sub(rayDir.clone().multiplyScalar(alongRay)).length()
+        const inside = CORE_RADIUS * CORE_RADIUS - perpDist * perpDist
+        const nearHit = alongRay - Math.sqrt(Math.max(inside, 0))
+        const isBehind = inside > 0 && alongRay > 0 && rayLen > nearHit
+
+        // Project to 2D Screen
+        const proj = worldPos.clone().project(this.camera)
+        const screenX = (proj.x * 0.5 + 0.5) * this.width
+        const screenY = (-(proj.y * 0.5) + 0.5) * this.height
+
+        const scale = Math.max(0.7, Math.min(1.25, 7.5 / Math.max(0.01, -viewPos.z)))
+        const depthAlpha = THREE.MathUtils.clamp(((-viewPos.z - (this.camera.position.z - 2.5)) / 5.0), 0.45, 1.0)
+
+        badgeCoords[skill.id] = {
+          id: skill.id,
+          x: screenX,
+          y: screenY,
+          scale,
+          opacity: isBehind ? 0.15 : depthAlpha,
+          isBehind,
+          depth: -viewPos.z,
+        }
+      }
+
+      this.onUpdateBadges(badgeCoords)
+    }
+  }
+
+  dispose() {
+    this.disposed = true
+    cancelAnimationFrame(this.frameId)
+    this.unbind()
+    this.cloudGeometry.dispose()
+    this.material.dispose()
+    this.renderer.dispose()
+    const el = this.renderer.domElement
+    if (el.parentNode === this.container) this.container.removeChild(el)
+  }
+}
+
+/* =========================================================
+   REACT COMPONENT (With True Pull-Out Magnetic Cards)
+   ========================================================= */
+
+interface ActiveDragState {
+  skillId: string
+  x: number
+  y: number
+  isSnapping?: boolean
+}
+
+export interface ParticleSaturnProps {
+  coreColor?: string
+  ringColor?: string
+  density?: number
+  particleSize?: number
+  glow?: number
+  tilt?: number
+  roll?: number
+  spinSpeed?: number
+  ringOptions?: RingOptions
+  dragSensitivity?: number
+  sizePercent?: number
+  style?: React.CSSProperties
+}
+
+function __OriginkitBase_ParticleSaturn(props: ParticleSaturnProps) {
+  const {
+    coreColor = DEFAULTS.coreColor,
+    ringColor = DEFAULTS.ringColor,
+    density = DEFAULTS.density,
+    particleSize = DEFAULTS.particleSize,
+    glow = DEFAULTS.glow,
+    tilt = DEFAULTS.tilt,
+    roll = DEFAULTS.roll,
+    spinSpeed = DEFAULTS.spinSpeed,
+    ringOptions = { gaps: 2, orbitSpeed: 8, innerRadius: 135, outerRadius: 260 },
+    dragSensitivity = DEFAULTS.dragSensitivity,
+    sizePercent = DEFAULTS.sizePercent,
+    style,
+  } = props
+
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const sceneRef = useRef<SaturnScene | null>(null)
+
+  const [activeCategory, setActiveCategory] = useState<string>("all")
+  const [hoveredBadgeId, setHoveredBadgeId] = useState<string | null>(null)
+  const [activeDrag, setActiveDrag] = useState<ActiveDragState | null>(null)
+  const [badgeMap, setBadgeMap] = useState<Record<string, ProjectedBadge>>({})
+
+  const cfgRef = useRef<Config>(null as any)
+  cfgRef.current = {
+    coreColor,
+    ringColor,
+    density,
+    particleSize,
+    glow,
+    tilt,
+    roll,
+    spinSpeed,
+    ringOptions,
+    dragSensitivity,
+    sizePercent,
+  }
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    let scene: SaturnScene
+    try {
+      scene = new SaturnScene(container, cfgRef.current)
+    } catch {
+      return
+    }
+    sceneRef.current = scene
+    scene.onUpdateBadges = (badges) => {
+      setBadgeMap(badges)
+    }
+    scene.setSize(container.clientWidth, container.clientHeight)
+    scene.start()
+
+    const ro = new ResizeObserver(() => {
+      scene.setSize(container.clientWidth, container.clientHeight)
+    })
+    ro.observe(container)
+    return () => {
+      ro.disconnect()
+      scene.dispose()
+      sceneRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    sceneRef.current?.updateConfig(cfgRef.current)
+  }, [
+    coreColor,
+    ringColor,
+    density,
+    particleSize,
+    glow,
+    tilt,
+    roll,
+    spinSpeed,
+    ringOptions?.innerRadius,
+    ringOptions?.outerRadius,
+    ringOptions?.gaps,
+    ringOptions?.orbitSpeed,
+    dragSensitivity,
+    sizePercent,
+  ])
+
+  // Drag handlers to pull badge anywhere outside the ring
+  const handleBadgePointerDown = useCallback((e: React.PointerEvent, skillId: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const container = containerRef.current
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    setActiveDrag({
+      skillId,
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!activeDrag || activeDrag.isSnapping) return
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const container = containerRef.current
+      if (!container) return
+      const rect = container.getBoundingClientRect()
+      setActiveDrag((prev) =>
+        prev
+          ? {
+              ...prev,
+              x: e.clientX - rect.left,
+              y: e.clientY - rect.top,
+            }
+          : null
+      )
+    }
+
+    const handlePointerUp = () => {
+      // Trigger snap-back animation
+      setActiveDrag((prev) => (prev ? { ...prev, isSnapping: true } : null))
+      setTimeout(() => {
+        setActiveDrag(null)
+      }, 350)
+    }
+
+    window.addEventListener("pointermove", handlePointerMove)
+    window.addEventListener("pointerup", handlePointerUp)
+    window.addEventListener("pointercancel", handlePointerUp)
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove)
+      window.removeEventListener("pointerup", handlePointerUp)
+      window.removeEventListener("pointercancel", handlePointerUp)
+    }
+  }, [activeDrag])
+
+  const draggedSkill = activeDrag ? TECH_SKILLS.find((s) => s.id === activeDrag.skillId) : null
+  const draggedBadgeSlot = activeDrag && activeDrag.skillId ? badgeMap[activeDrag.skillId] : null
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-[850px] lg:min-h-[920px] bg-[#0A0B0E] border-t border-white/5 overflow-hidden flex flex-col justify-between pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-8 select-none"
+      role="img"
+      aria-label="Particle Saturn with Orbiting Tech Stack Skills"
+      className="relative w-full h-full min-h-[820px] sm:min-h-[920px] lg:min-h-[1000px] overflow-hidden select-none flex flex-col justify-between pt-12 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-8 text-[#D7E2EA]"
+      style={{
+        ...style,
+      }}
     >
-      {/* Background Soft Ambient Light Spheres */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#7621B0]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#38BDF8]/10 rounded-full blur-[140px] pointer-events-none" />
-
-      {/* Subtle Soundwave Graphics in Background */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-6 sm:px-16 pointer-events-none opacity-15">
-        <svg className="w-28 sm:w-44 h-44 text-white/30" viewBox="0 0 100 100" fill="currentColor">
-          <rect x="10" y="35" width="4" height="30" rx="2" />
-          <rect x="20" y="20" width="4" height="60" rx="2" />
-          <rect x="30" y="10" width="4" height="80" rx="2" />
-          <rect x="40" y="25" width="4" height="50" rx="2" />
-          <rect x="50" y="40" width="4" height="20" rx="2" />
-          <rect x="60" y="15" width="4" height="70" rx="2" />
-          <rect x="70" y="30" width="4" height="40" rx="2" />
-          <rect x="80" y="45" width="4" height="10" rx="2" />
-        </svg>
-        <svg className="w-28 sm:w-44 h-44 text-white/30" viewBox="0 0 100 100" fill="currentColor">
-          <rect x="10" y="45" width="4" height="10" rx="2" />
-          <rect x="20" y="30" width="4" height="40" rx="2" />
-          <rect x="30" y="15" width="4" height="70" rx="2" />
-          <rect x="40" y="40" width="4" height="20" rx="2" />
-          <rect x="50" y="25" width="4" height="50" rx="2" />
-          <rect x="60" y="10" width="4" height="80" rx="2" />
-          <rect x="70" y="20" width="4" height="60" rx="2" />
-          <rect x="80" y="35" width="4" height="30" rx="2" />
-        </svg>
-      </div>
-
-      {/* ============================================================ */}
-      {/* 1. CENTER TYPOGRAPHY & CTAs */}
-      {/* ============================================================ */}
-      <div className="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center justify-center my-auto px-4 pointer-events-auto">
-        <FadeIn delay={0.1} y={20}>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest text-[#38BDF8] uppercase mb-6 shadow-sm backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Tech Stack</span>
+      {/* 1. TOP EDITORIAL BANNER */}
+      <div className="relative z-30 w-full max-w-4xl mx-auto text-center flex flex-col items-center pointer-events-none mb-10 sm:mb-16">
+        <FadeIn delay={0.1} y={15}>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-[#00E5FF] uppercase mb-4 shadow-2xl backdrop-blur-xl">
+            <Sparkles className="w-3.5 h-3.5 text-[#00E5FF] animate-spin" style={{ animationDuration: "6s" }} />
+            <span>// KEPLER ORBITING TECH STACK • DRAG BADGE OUTSIDE TO INSPECT</span>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.2} y={25}>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-tight leading-[1.08] mb-5">
-            Crafted with Precision. <br />
-            <span className="hero-heading">Connected by Design.</span>
-          </h2>
-        </FadeIn>
-
-        <FadeIn delay={0.3} y={25}>
-          <p className="text-sm sm:text-base text-[#9FA8B3] max-w-md mx-auto leading-relaxed mb-8">
-            Grab, throw, and freely explore the creative technologies, spatial 3D WebGL runtimes, and full-stack systems.
+        <FadeIn delay={0.2} y={15}>
+          <p className="text-xs sm:text-sm font-mono text-zinc-300 max-w-xl leading-relaxed">
+            Click &amp; drag any skill badge out of the ring to view details • Release mouse to snap back into orbit
           </p>
         </FadeIn>
-
-        <FadeIn delay={0.4} y={20}>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#projects"
-              className="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 flex items-center gap-2"
-            >
-              <span>Explore Projects</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href="#about"
-              className="px-6 py-3 rounded-full bg-white/5 text-white border border-white/15 font-semibold text-xs uppercase tracking-wider hover:bg-white/10 transition-all duration-300 backdrop-blur-md hover:scale-105 active:scale-95"
-            >
-              Get In Touch
-            </a>
-          </div>
-        </FadeIn>
       </div>
 
-      {/* ============================================================ */}
-      {/* 2. HAND-DRAWN "DRAG ME" ANNOTATION & POINTER ARROW */}
-      {/* ============================================================ */}
-      {!hasInteracted && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="absolute z-30 pointer-events-none hidden sm:flex items-center gap-2"
-          style={{ right: '18%', top: '24%' }}
-        >
-          {/* Cursive "drag me" text */}
-          <span
-            style={{ fontFamily: "'Covered By Your Grace', cursive" }}
-            className="text-2xl sm:text-3xl text-white/80 transform -rotate-12 tracking-wide drop-shadow-md"
-          >
-            drag me
-          </span>
+      {/* 2. ORBITING SKILL BADGES */}
+      <div className="absolute inset-0 pointer-events-none z-20 overflow-visible">
+        {TECH_SKILLS.map((skill) => {
+          const badge = badgeMap[skill.id]
+          if (!badge) return null
 
-          {/* Curved Hand-Drawn Arrow */}
-          <svg className="w-12 h-12 text-white/70" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3">
-            <path
-              d="M20 70 C 40 20, 70 20, 85 45"
-              strokeLinecap="round"
-              strokeDasharray="4 4"
-            />
-            <path d="M72 45 L 85 45 L 82 32" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.div>
-      )}
+          const isMatch = activeCategory === "all" || skill.category === activeCategory
+          const isHovered = hoveredBadgeId === skill.id
+          const isBeingDragged = activeDrag?.skillId === skill.id
 
-      {/* ============================================================ */}
-      {/* 3. FREEFORM DRAGGABLE 3D SQUIRCLES */}
-      {/* ============================================================ */}
-      <div className="absolute inset-0 z-20 overflow-hidden pointer-events-none">
-        <AnimatePresence>
-          {filteredTiles.map((tile, idx) => (
-            <motion.div
-              key={tile.id}
-              drag
-              dragConstraints={containerRef}
-              dragElastic={0.2}
-              dragMomentum={true}
-              dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-              onDragStart={() => setHasInteracted(true)}
-              initial={{
-                opacity: 0,
-                scale: 0.5,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-              }}
-              exit={{ opacity: 0, scale: 0.4 }}
-              transition={{
-                duration: 0.5,
-                delay: idx * 0.03,
-                type: 'spring',
-                stiffness: 280,
-                damping: 22,
-              }}
+          return (
+            <div
+              key={skill.id}
               style={{
-                position: 'absolute',
-                left: `${tile.x}%`,
-                top: `${tile.y}%`,
-                zIndex: 25,
+                position: "absolute",
+                left: `${badge.x}px`,
+                top: `${badge.y}px`,
+                transform: "translate(-50%, -50%)",
+                opacity: isBeingDragged ? 0.2 : isMatch ? (badge.isBehind ? 0.2 : 1.0) : 0.2,
+                zIndex: isHovered ? 60 : Math.round(badge.depth * 10),
+                pointerEvents: badge.isBehind && !isBeingDragged ? "none" : "auto",
+                transition: "opacity 0.25s ease",
               }}
-              className="pointer-events-auto cursor-grab active:cursor-grabbing touch-none select-none"
+              className="skill-badge-node"
             >
-              {/* Inner Continuous Floating Element */}
-              <div className={tile.floatClass}>
-                <motion.div
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: 0,
-                    zIndex: 60,
-                    boxShadow: `0 20px 45px -10px ${tile.glowColor}, 0 0 35px ${tile.glowColor}`,
+              <motion.div
+                whileHover={{ scale: 1.35 }}
+                onPointerDown={(e) => handleBadgePointerDown(e, skill.id)}
+                onMouseEnter={() => setHoveredBadgeId(skill.id)}
+                onMouseLeave={() => setHoveredBadgeId(null)}
+                style={{
+                  transform: `scale(${badge.scale})`,
+                  borderColor: isHovered ? skill.color : "rgba(255, 255, 255, 0.8)",
+                  boxShadow: isHovered
+                    ? `0 0 30px ${skill.color}, 0 12px 35px rgba(0,0,0,0.9)`
+                    : `0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px ${skill.color}50`,
+                }}
+                className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center p-2.5 transition-all duration-300 cursor-grab active:cursor-grabbing shadow-2xl ${
+                  isMatch ? "ring-2 ring-white/90" : "grayscale opacity-25"
+                }`}
+              >
+                <img
+                  src={skill.logoUrl}
+                  alt={skill.name}
+                  loading="eager"
+                  className="w-full h-full object-contain pointer-events-none select-none filter drop-shadow-sm"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none"
                   }}
-                  whileTap={{ scale: 0.94 }}
-                  style={{ transform: `rotate(${tile.rotate}deg)` }}
-                  className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 rounded-[24px] sm:rounded-[28px] bg-[#141519]/90 backdrop-blur-xl border border-white/15 flex items-center justify-center shadow-2xl transition-all duration-300 hover:border-white/40 group p-3.5"
-                >
-                  {/* Real Official Brand Vector Logo or SVG Graphic */}
-                  {tile.logoUrl ? (
-                    <img
-                      src={tile.logoUrl}
-                      alt={tile.name}
-                      loading="eager"
-                      className="w-full h-full object-contain pointer-events-none drop-shadow-md select-none"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    tile.svgFallback
-                  )}
+                />
 
-                  {/* Optional Floating Hand Pointer on first tile */}
-                  {tile.hasHandCursor && !hasInteracted && (
+                {/* Hover Tooltip (When in orbit) */}
+                <AnimatePresence>
+                  {isHovered && !activeDrag && (
                     <motion.div
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute -top-3 -right-3 z-30 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl"
+                      initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.9 }}
+                      className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/95 text-white px-3 py-1.5 rounded-full border border-white/20 text-[11px] font-mono tracking-wider shadow-2xl z-50 pointer-events-none flex items-center gap-1.5 backdrop-blur-xl"
                     >
-                      👆
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: skill.color }} />
+                      <span className="font-bold text-white">{skill.name}</span>
+                      <span className="text-zinc-500">•</span>
+                      <span className="text-zinc-300">{skill.role}</span>
                     </motion.div>
                   )}
+                </AnimatePresence>
+              </motion.div>
+            </div>
+          )
+        })}
 
-                  {/* Tooltip on Hover */}
-                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-black/90 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-mono tracking-wider text-white shadow-xl z-50">
-                    <span className="font-bold text-[#38BDF8]">{tile.name}</span>
-                    <span className="text-white/60 mx-1.5">•</span>
-                    <span className="text-white/80">{tile.role}</span>
-                  </div>
-                </motion.div>
+        {/* 3. MAGNETIC PULL-OUT CARD OVERLAY & CYBER TETHER */}
+        {activeDrag && draggedSkill && draggedBadgeSlot && (
+          <div className="absolute inset-0 pointer-events-none z-50 overflow-visible detached-skill-card">
+            {/* Glowing Cyber Magnetic Tether connecting orbit slot to pulled card */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+              <line
+                x1={draggedBadgeSlot.x}
+                y1={draggedBadgeSlot.y}
+                x2={activeDrag.isSnapping ? draggedBadgeSlot.x : activeDrag.x}
+                y2={activeDrag.isSnapping ? draggedBadgeSlot.y : activeDrag.y}
+                stroke={draggedSkill.color}
+                strokeWidth="2"
+                strokeDasharray="6 4"
+                className="opacity-75 transition-all duration-300"
+              />
+              <circle
+                cx={draggedBadgeSlot.x}
+                cy={draggedBadgeSlot.y}
+                r="4"
+                fill={draggedSkill.color}
+                className="animate-ping"
+              />
+            </svg>
+
+            {/* The Floating 1-Line Expanded Card */}
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{
+                scale: activeDrag.isSnapping ? 0.4 : 1,
+                opacity: activeDrag.isSnapping ? 0 : 1,
+                x: activeDrag.isSnapping ? draggedBadgeSlot.x : activeDrag.x,
+                y: activeDrag.isSnapping ? draggedBadgeSlot.y : activeDrag.y,
+              }}
+              transition={
+                activeDrag.isSnapping
+                  ? { type: "spring", stiffness: 450, damping: 28 }
+                  : { duration: 0.05 }
+              }
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                transform: "translate(-50%, -50%)",
+                borderColor: draggedSkill.color,
+                boxShadow: `0 0 40px ${draggedSkill.color}90, 0 25px 60px rgba(0,0,0,0.95)`,
+              }}
+              className="flex items-center gap-3.5 px-4 py-3 rounded-full bg-[#0A0B10]/95 backdrop-blur-3xl border-2 shadow-2xl min-w-[310px] sm:min-w-[380px] max-w-lg cursor-grabbing pointer-events-none"
+            >
+              {/* White Icon Badge */}
+              <div className="w-9 h-9 flex-shrink-0 p-1.5 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <img
+                  src={draggedSkill.logoUrl}
+                  alt={draggedSkill.name}
+                  className="w-full h-full object-contain pointer-events-none select-none filter drop-shadow-sm"
+                />
+              </div>
+
+              {/* Text Info */}
+              <div className="flex flex-col text-left flex-1 min-w-0 pr-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-sm text-white tracking-wide">{draggedSkill.name}</span>
+                  <span
+                    className="text-[10px] font-mono px-2.5 py-0.5 rounded-full uppercase font-semibold"
+                    style={{
+                      backgroundColor: `${draggedSkill.color}25`,
+                      color: draggedSkill.color,
+                      border: `1px solid ${draggedSkill.color}60`,
+                    }}
+                  >
+                    {draggedSkill.role}
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-300 font-sans truncate mt-0.5 leading-tight">
+                  {draggedSkill.description}
+                </p>
               </div>
             </motion.div>
-          ))}
-        </AnimatePresence>
+          </div>
+        )}
       </div>
 
-      {/* ============================================================ */}
-      {/* 4. BOTTOM FROSTED GLASS DOCK & CATEGORY FILTER */}
-      {/* ============================================================ */}
-      <div className="relative z-30 w-full max-w-4xl mx-auto mt-auto pt-6 flex flex-col items-center pointer-events-auto">
-        <div className="bg-[#141519]/90 backdrop-blur-2xl px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border border-white/10 shadow-2xl flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-full">
+      {/* 4. FUTURISTIC CELESTIAL HUD FILTER DOCK */}
+      <div className="relative z-30 w-full max-w-5xl mx-auto mt-auto flex flex-col items-center pointer-events-auto gap-3">
+        <div className="flex items-center gap-2 text-[10px] font-mono tracking-widest text-cyan-400/80 uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+          <span>
+            ORBITAL TELEMETRY • {activeCategory === "all" ? `${TECH_SKILLS.length} NODES SYNCHRONIZED` : `${TECH_SKILLS.filter((s) => s.category === activeCategory).length} NODES FILTERED`}
+          </span>
+        </div>
+
+        <div className="relative p-1.5 rounded-full bg-[#0A0B10]/85 backdrop-blur-3xl border border-cyan-500/25 shadow-[0_0_40px_-8px_rgba(6,182,212,0.35),0_20px_50px_rgba(0,0,0,0.8)] flex items-center gap-1 sm:gap-1.5 overflow-x-auto max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent pointer-events-none" />
+
           {FILTERS.map((cat) => {
-            const Icon = cat.icon;
-            const isActive = activeCategory === cat.id;
+            const Icon = cat.icon
+            const isActive = activeCategory === cat.id
 
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-mono font-medium tracking-wider transition-all duration-300 whitespace-nowrap cursor-pointer ${
-                  isActive
-                    ? 'bg-white text-black font-bold shadow-md scale-[1.03]'
-                    : 'text-[#8E97A0] hover:text-white hover:bg-white/5'
+                className={`relative flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-all duration-300 whitespace-nowrap cursor-pointer z-10 select-none ${
+                  isActive ? "text-black" : "text-zinc-400 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{cat.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeFilterPill"
+                    transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-cyan-300 to-sky-400 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.7)] z-[-1]"
+                  />
+                )}
+
+                <Icon className={`w-3.5 h-3.5 transition-transform duration-200 ${isActive ? "scale-110 text-black" : "text-cyan-400/80"}`} />
+                <span className="relative z-10">{cat.label}</span>
               </button>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+
+const __originkitPresetProps = {
+  coreColor: "#60A5FA",
+  ringColor: "#00E5FF",
+  density: 16,
+  particleSize: 14,
+  glow: 18,
+  tilt: 8,
+  roll: 10,
+  spinSpeed: 6,
+  dragSensitivity: 2,
+  sizePercent: 125,
+}
+
+export default function ParticleSaturn(props: Record<string, unknown>) {
+  return <__OriginkitBase_ParticleSaturn {...(__originkitPresetProps as Record<string, unknown>)} {...props} />
+}
+
+ParticleSaturn.displayName = "Particle Saturn"
+
+export const InteractiveSkillsCanvas = ParticleSaturn
