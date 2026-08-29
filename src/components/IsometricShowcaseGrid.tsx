@@ -11,7 +11,6 @@ interface IsometricCard {
   badge?: string;
 }
 
-// Exactly 3 curated cards per column (12 unique cards total)
 const ISOMETRIC_COLUMNS_DATA: IsometricCard[][] = [
   // Column 1 (3 Cards - Train UP)
   [
@@ -23,92 +22,90 @@ const ISOMETRIC_COLUMNS_DATA: IsometricCard[][] = [
       badge: 'Live Build',
     },
     {
-      title: '3D Geometry Prism',
-      category: 'WebGL Shader Lab',
-      image:
-        'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80',
-      badge: '3D Render',
+      title: 'Anna University Study Hub',
+      category: 'Full Stack Learning Platform',
+      image: '/projects/anna_hub_main.jpg',
+      link: 'https://naks-frontend-9c8k-beige.vercel.app/',
+      badge: 'Platform',
     },
     {
-      title: 'Cyberpunk Neon Lab',
-      category: 'Kinetic Motion Design',
-      image:
-        'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80',
-      badge: 'Shaders',
+      title: 'Solespace 3D Sneaker',
+      category: 'Interactive Haute Footwear',
+      image: '/projects/soles_sneaker.jpg',
+      link: 'https://soles-shoe.vercel.app/',
+      badge: '3D WebGL',
     },
   ],
   // Column 2 (3 Cards - Train DOWN)
   [
     {
       title: 'Apex Elite Fitness',
-      category: 'Full Stack Ecosystem',
+      category: 'Full Stack Performance Gym',
       image:
         'https://images.unsplash.com/photo-1778828494354-9b717d36dc99?w=800&q=80',
       link: 'https://apex-elite-fitness-vz6z.vercel.app/',
       badge: 'Web App',
     },
     {
-      title: 'Moving Your World',
-      category: 'Planetary WebGL Interface',
-      image:
-        'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80',
-      badge: 'Featured',
+      title: 'SnapTask AI Scanner',
+      category: 'OCR Note-to-Task App',
+      image: '/projects/snaptask_1.jpg',
+      badge: 'Mobile App',
     },
-    {
-      title: 'Orbit Web3 Protocol',
-      category: 'Decentralized Finance',
-      image:
-        'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=800&q=80',
-      badge: 'Web3',
-    },
-  ],
-  // Column 3 (3 Cards - Train UP)
-  [
     {
       title: 'Taj Mahal Monument 360',
-      category: 'Virtual Heritage Experience',
+      category: 'Virtual Heritage 3D',
       image:
         'https://res.cloudinary.com/qrhgjdrs/image/upload/v1783957306/An_improved__highly_detailed_cinematic_202607132108_wv1rpx.jpg',
       link: 'https://naks-frontend-9c8k-beige.vercel.app/',
       badge: 'WebGL 3D',
     },
+  ],
+  // Column 3 (3 Cards - Train UP)
+  [
     {
-      title: 'Dark Minimal Device',
-      category: 'Product Mockup & UI',
-      image:
-        'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80',
-      badge: 'Hardware UI',
+      title: 'Solespace Showroom',
+      category: '3D Luxury Footwear Platform',
+      image: '/projects/soles_showroom.jpg',
+      link: 'https://soles-shoe.vercel.app/',
+      badge: 'Showcase',
     },
     {
-      title: 'Stellar AI Engine',
-      category: 'Neural Interface',
-      image:
-        'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&q=80',
-      badge: 'AI UI',
+      title: 'SnapTask Smart Tasks',
+      category: 'AI Task Intelligence',
+      image: '/projects/snaptask_main.jpg',
+      badge: 'AI App',
+    },
+    {
+      title: 'Anna University Notes Hub',
+      category: 'Course & Class Schedule UI',
+      image: '/projects/anna_hub_1.jpg',
+      link: 'https://naks-frontend-9c8k-beige.vercel.app/',
+      badge: 'Full Stack',
     },
   ],
   // Column 4 (3 Cards - Train DOWN)
   [
     {
-      title: 'Spatial Canvas Protocol',
-      category: 'Web3 & Realtime',
-      image:
-        'https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=800&q=80',
-      badge: 'Decentralized',
+      title: 'SnapTask AI Dashboard',
+      category: 'Productivity Workflows',
+      image: '/projects/snaptask_2.jpg',
+      badge: 'Productivity',
     },
     {
-      title: 'Fluid Gradient Studio',
-      category: 'Design Systems',
+      title: 'Apex Elite Training',
+      category: 'Strength & Conditioning',
       image:
-        'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80',
-      badge: 'Brand Identity',
+        'https://images.unsplash.com/photo-1611672585731-fa10603fb9e0?w=1200',
+      link: 'https://apex-elite-fitness-vz6z.vercel.app/',
+      badge: 'Fitness App',
     },
     {
-      title: 'Aethera Interactive',
-      category: 'Spatial Web3',
-      image:
-        'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
-      badge: 'Motion Lab',
+      title: 'Solespace 3D Runway',
+      category: 'Haute Footwear Experience',
+      image: '/projects/soles_slider.jpg',
+      link: 'https://soles-shoe.vercel.app/',
+      badge: '3D Store',
     },
   ],
 ];

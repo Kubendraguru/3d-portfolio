@@ -55,6 +55,15 @@ const PROJECTS: ProjectData[] = [
     col1Img2: '/projects/soles_slider.jpg',
     col2Img: '/projects/soles_showroom.jpg',
   },
+  {
+    number: '05',
+    name: 'SnapTask — AI Note-to-Task App',
+    category: 'AI OCR & Intelligent Task Management',
+    liveUrl: '',
+    col1Img1: '/projects/snaptask_1.jpg',
+    col1Img2: '/projects/snaptask_2.jpg',
+    col2Img: '/projects/snaptask_main.jpg',
+  },
 ];
 
 interface ProjectCardProps {
