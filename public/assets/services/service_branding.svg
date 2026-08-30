@@ -1,11 +1,135 @@
-<svg width='400' height='300' viewBox='0 0 400 300' fill='none' xmlns='http://www.w3.org/2000/svg'>
-  <rect width='400' height='300' rx='16' fill='#0C121E'/>
-  <rect x='1' y='1' width='398' height='298' rx='15' stroke='rgba(255,255,255,0.1)'/>
-  <rect x='70' y='75' width='110' height='110' rx='24' fill='#1E293B' stroke='#10B981' stroke-width='2'/>
-  <circle cx='125' cy='130' r='30' fill='#10B981' filter='drop-shadow(0 0 15px rgba(16,185,129,0.5))'/>
-  <rect x='210' y='75' width='120' height='24' rx='6' fill='#334155'/>
-  <rect x='210' y='110' width='90' height='16' rx='4' fill='#1E293B'/>
-  <rect x='210' y='135' width='110' height='16' rx='4' fill='#1E293B'/>
-  <rect x='210' y='160' width='70' height='16' rx='4' fill='#1E293B'/>
-  <text x='20' y='35' fill='#10B981' font-family='monospace' font-size='12' font-weight='bold'>// BRAND_DESIGN_SYSTEM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="figmaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B14" />
+      <stop offset="100%" stop-color="#0E1726" />
+    </linearGradient>
+    <linearGradient id="emeraldNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <filter id="emeraldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Clean Dark Card Background with zero white borders -->
+  <rect width="460" height="280" rx="18" fill="url(#figmaBg)" stroke="#1E293B" stroke-width="1.2" />
+
+  <!-- Code Header -->
+  <text x="24" y="36" fill="#34D399" font-family="monospace" font-size="12" font-weight="700" letter-spacing="1.5">// DESIGN_SYSTEMS</text>
+
+  <!-- Left: Figma Toolbar -->
+  <g transform="translate(18, 55)">
+    <rect width="28" height="195" rx="8" fill="#0F172A" stroke="#1E293B" stroke-width="1" />
+    
+    <!-- Figma Logo icon -->
+    <g transform="translate(6, 10)">
+      <rect x="0" y="0" width="7" height="7" rx="3.5" fill="#F24E1E" />
+      <rect x="7" y="0" width="7" height="7" rx="3.5" fill="#FF7262" />
+      <rect x="0" y="7" width="7" height="7" rx="3.5" fill="#A259FF" />
+      <circle cx="10.5" cy="10.5" r="3.5" fill="#1ABCFE" />
+      <rect x="0" y="14" width="7" height="7" rx="3.5" fill="#0ACF83" />
+    </g>
+
+    <!-- Tool icons -->
+    <!-- Cursor pointer -->
+    <path d="M10 40 L18 48 L14 49 L16 54 L13 55 L11 50 L8 52 Z" fill="#38BDF8" />
+    <!-- Frame # -->
+    <text x="8" y="75" fill="#64748B" font-family="sans-serif" font-size="12">#</text>
+    <!-- Shape rect -->
+    <rect x="8" y="90" width="10" height="10" rx="2" fill="none" stroke="#64748B" stroke-width="1.2" />
+    <!-- Pen -->
+    <path d="M9 118 L16 111 L19 114 L12 121 Z" fill="#64748B" />
+    <!-- Text T -->
+    <text x="9" y="142" fill="#64748B" font-family="sans-serif" font-size="11" font-weight="700">T</text>
+    <!-- Hand -->
+    <circle cx="14" cy="160" r="4" fill="none" stroke="#10B981" stroke-width="1.2" />
+  </g>
+
+  <!-- Center-Left: Mobile App Wireframe Screen -->
+  <g transform="translate(58, 55)">
+    <!-- Phone Bezel -->
+    <rect width="130" height="195" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+    
+    <!-- Phone Notch / Header -->
+    <rect x="42" y="6" width="46" height="4" rx="2" fill="#CBD5E1" />
+    <text x="12" y="24" fill="#64748B" font-family="sans-serif" font-size="7">Good morning,</text>
+    <text x="12" y="38" fill="#0F172A" font-family="sans-serif" font-size="12" font-weight="800">Guru 👋</text>
+    <text x="12" y="50" fill="#94A3B8" font-family="sans-serif" font-size="6.5">Let's design something amazing</text>
+
+    <!-- Start Designing Blue Button -->
+    <rect x="12" y="58" width="106" height="20" rx="6" fill="#2563EB" />
+    <text x="32" y="71" fill="#FFFFFF" font-family="sans-serif" font-size="8" font-weight="700">Start Designing</text>
+
+    <!-- Stat cards -->
+    <rect x="12" y="86" width="50" height="38" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+    <text x="16" y="98" fill="#64748B" font-family="sans-serif" font-size="6">Projects</text>
+    <text x="16" y="114" fill="#0F172A" font-family="sans-serif" font-size="12" font-weight="800">12</text>
+
+    <rect x="68" y="86" width="50" height="38" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+    <text x="72" y="98" fill="#64748B" font-family="sans-serif" font-size="6">Tasks</text>
+    <text x="72" y="114" fill="#0F172A" font-family="sans-serif" font-size="12" font-weight="800">28</text>
+
+    <!-- Progress card -->
+    <rect x="12" y="132" width="106" height="48" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+    <text x="18" y="146" fill="#0F172A" font-family="sans-serif" font-size="7.5" font-weight="700">Progress</text>
+    <text x="18" y="160" fill="#2563EB" font-family="sans-serif" font-size="11" font-weight="800">76%</text>
+    <rect x="18" y="166" width="94" height="4" rx="2" fill="#E2E8F0" />
+    <rect x="18" y="166" width="70" height="4" rx="2" fill="#2563EB" />
+  </g>
+
+  <!-- Center-Right: Interactive Wireflow Nodes -->
+  <g transform="translate(200, 60)">
+    <!-- Screen 1 Node -->
+    <rect x="0" y="0" width="50" height="52" rx="6" fill="#131F37" stroke="#2563EB" stroke-width="1.2" />
+    <rect x="6" y="6" width="38" height="20" rx="3" fill="#1E293B" />
+    <rect x="6" y="32" width="38" height="3" rx="1.5" fill="#3B82F6" />
+    <rect x="6" y="38" width="26" height="3" rx="1.5" fill="#64748B" />
+
+    <!-- Screen 2 Node -->
+    <rect x="65" y="0" width="50" height="52" rx="6" fill="#131F37" stroke="#1E293B" stroke-width="1" />
+    <rect x="71" y="6" width="38" height="20" rx="3" fill="#1E293B" />
+    <rect x="71" y="32" width="38" height="3" rx="1.5" fill="#64748B" />
+    <rect x="71" y="38" width="26" height="3" rx="1.5" fill="#64748B" />
+
+    <!-- Connectors -->
+    <path d="M25 52 L25 80 L60 80 L60 95" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,2" />
+    <circle cx="60" cy="80" r="2.5" fill="#38BDF8" />
+
+    <!-- Screen 3 Node -->
+    <rect x="0" y="95" width="50" height="52" rx="6" fill="#131F37" stroke="#1E293B" stroke-width="1" />
+    <rect x="6" y="101" width="38" height="20" rx="3" fill="#1E293B" />
+    <rect x="6" y="127" width="38" height="3" rx="1.5" fill="#64748B" />
+
+    <!-- Screen 4 Node -->
+    <rect x="65" y="95" width="50" height="52" rx="6" fill="#131F37" stroke="#10B981" stroke-width="1.2" />
+    <rect x="71" y="101" width="38" height="20" rx="3" fill="#1E293B" />
+    <rect x="71" y="127" width="38" height="3" rx="1.5" fill="#10B981" />
+  </g>
+
+  <!-- Far Right: Layers & Components Inspector Panel -->
+  <g transform="translate(330, 55)">
+    <!-- Layers Panel Box -->
+    <rect width="115" height="95" rx="8" fill="#0F172A" stroke="#1E293B" stroke-width="1" />
+    <text x="10" y="16" fill="#E2E8F0" font-family="sans-serif" font-size="8" font-weight="700">Layers</text>
+    <text x="10" y="32" fill="#38BDF8" font-family="sans-serif" font-size="7">▢ Mobile / Home</text>
+    <text x="18" y="44" fill="#94A3B8" font-family="sans-serif" font-size="6.5">◇ Header</text>
+    <text x="18" y="56" fill="#94A3B8" font-family="sans-serif" font-size="6.5">◇ Hero Section</text>
+    <text x="18" y="68" fill="#94A3B8" font-family="sans-serif" font-size="6.5">+ Features</text>
+    <text x="18" y="80" fill="#94A3B8" font-family="sans-serif" font-size="6.5">+ Bottom Nav</text>
+
+    <!-- Components Token Box -->
+    <rect y="102" width="115" height="90" rx="8" fill="#0F172A" stroke="#1E293B" stroke-width="1" />
+    <text x="10" y="118" fill="#E2E8F0" font-family="sans-serif" font-size="8" font-weight="700">Components</text>
+    <circle cx="14" cy="132" r="3" fill="#2563EB" />
+    <text x="22" y="135" fill="#E2E8F0" font-family="sans-serif" font-size="6.5">Button / Primary</text>
+    <rect x="11" y="144" width="6" height="6" fill="#64748B" />
+    <text x="22" y="149" fill="#94A3B8" font-family="sans-serif" font-size="6.5">Card / Default</text>
+    <rect x="11" y="158" width="6" height="6" rx="1" fill="#64748B" />
+    <text x="22" y="163" fill="#94A3B8" font-family="sans-serif" font-size="6.5">Input / Field</text>
+    <polygon points="14,172 17,175 14,178 11,175" fill="#10B981" />
+    <text x="22" y="177" fill="#94A3B8" font-family="sans-serif" font-size="6.5">Icon / Small</text>
+  </g>
 </svg>

@@ -39,10 +39,16 @@ export const ServicesSection: React.FC = () => {
               badgeVariant="success"
               imageSrc="/assets/services/service_web_design.svg"
               href="#webflow"
-            />
+            >
+              <ul className="text-sm text-neutral-500 space-y-1 mt-1">
+                <li>✓ Custom, responsive Webflow sites</li>
+                <li>✓ CMS & dynamic content integration</li>
+                <li>✓ Fast, production ready & scalable</li>
+              </ul>
+            </TiltCard>
           </FadeIn>
 
-          {/* 2. UI/UX Design (Custom Children) */}
+          {/* 2. UI/UX Design */}
           <FadeIn delay={0.1} y={20}>
             <TiltCard
               title="UI/UX Design"
@@ -60,11 +66,47 @@ export const ServicesSection: React.FC = () => {
             </TiltCard>
           </FadeIn>
 
-          {/* 3. Motion & Animation (Custom Children with Warning Badge) */}
+          {/* 3. AI Engineering */}
           <FadeIn delay={0.15} y={20}>
             <TiltCard
-              title="Motion & Animation"
+              title="AI Engineering"
               price="03"
+              badgeLabel="AI Engineering"
+              badgeVariant="purple"
+              description="Building intelligent applications powered by modern AI models and agentic workflows."
+              imageSrc="/assets/services/service_ai_engineering.svg"
+            >
+              <ul className="text-sm text-neutral-500 space-y-1 mt-1">
+                <li>✓ LLM & Gemini API integration</li>
+                <li>✓ RAG, embeddings & vector databases</li>
+                <li>✓ AI agents & intelligent automation</li>
+              </ul>
+            </TiltCard>
+          </FadeIn>
+
+          {/* 4. Cloud & DevOps */}
+          <FadeIn delay={0.2} y={20}>
+            <TiltCard
+              title="Cloud & DevOps"
+              price="04"
+              badgeLabel="Cloud & DevOps"
+              badgeVariant="blue"
+              description="Deploying reliable applications with modern cloud infrastructure and automation."
+              imageSrc="/assets/services/service_cloud_devops.svg"
+            >
+              <ul className="text-sm text-neutral-500 space-y-1 mt-1">
+                <li>✓ AWS, Docker & Linux environments</li>
+                <li>✓ CI/CD pipelines & Git workflows</li>
+                <li>✓ Cloud monitoring & scalable deployments</li>
+              </ul>
+            </TiltCard>
+          </FadeIn>
+
+          {/* 5. Motion & Animation */}
+          <FadeIn delay={0.25} y={20}>
+            <TiltCard
+              title="Motion & Animation"
+              price="05"
               badgeLabel="Best value"
               badgeVariant="warning"
               description="Dynamic kinetic motion graphics that add storytelling to digital experiences."
@@ -74,40 +116,6 @@ export const ServicesSection: React.FC = () => {
                 <li>✓ 3D WebGL & camera choreography</li>
                 <li>✓ Framer Motion & GSAP fluid easing</li>
                 <li>✓ Lottie & vector micro-interactions</li>
-              </ul>
-            </TiltCard>
-          </FadeIn>
-
-          {/* 4. Marketing Strategy */}
-          <FadeIn delay={0.2} y={20}>
-            <TiltCard
-              title="Marketing Strategy"
-              description="Data-driven growth roadmaps and high-impact digital launch campaigns."
-              price="04"
-              badgeLabel="Growth"
-              badgeVariant="success"
-              imageSrc="/assets/services/service_rendering.svg"
-            >
-              <ul className="text-sm text-neutral-500 space-y-1 mt-1">
-                <li>✓ Brand positioning & market analysis</li>
-                <li>✓ High-converting landing page funnels</li>
-              </ul>
-            </TiltCard>
-          </FadeIn>
-
-          {/* 5. Copywriting */}
-          <FadeIn delay={0.25} y={20}>
-            <TiltCard
-              title="Copywriting"
-              description="Compelling narratives and sharp brand tone of voice that convert visitors."
-              price="05"
-              badgeLabel="Brand Voice"
-              badgeVariant="success"
-              imageSrc="/assets/services/service_3d_modeling.svg"
-            >
-              <ul className="text-sm text-neutral-500 space-y-1 mt-1">
-                <li>✓ High-impact hero messaging</li>
-                <li>✓ Product storytelling & case studies</li>
               </ul>
             </TiltCard>
           </FadeIn>

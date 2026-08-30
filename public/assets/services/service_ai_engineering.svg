@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="aiBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060A14" />
+      <stop offset="100%" stop-color="#0D1322" />
+    </linearGradient>
+    <linearGradient id="purpleNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E879F9" />
+      <stop offset="40%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="geminiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="coreGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Clean Dark Card Background with zero white borders -->
+  <rect width="460" height="280" rx="18" fill="url(#aiBg)" stroke="#1E293B" stroke-width="1.2" />
+
+  <!-- Code Header -->
+  <text x="26" y="38" fill="#C084FC" font-family="monospace" font-size="12" font-weight="700" letter-spacing="1.5">// AI_ENGINEERING</text>
+
+  <!-- Starry Background Particles -->
+  <circle cx="160" cy="45" r="1.5" fill="#A855F7" opacity="0.7" />
+  <circle cx="340" cy="35" r="1.5" fill="#38BDF8" opacity="0.6" />
+  <circle cx="130" cy="235" r="1.5" fill="#818CF8" opacity="0.5" />
+  <circle cx="380" cy="245" r="2" fill="#E879F9" opacity="0.7" />
+  <circle cx="295" cy="50" r="1" fill="#C084FC" opacity="0.5" />
+
+  <!-- Left: LLM Node -->
+  <g transform="translate(24, 75)">
+    <rect width="96" height="54" rx="12" fill="#111827" stroke="#3730A3" stroke-width="1.4" />
+    <rect x="14" y="15" width="22" height="24" rx="6" fill="#4F46E5" />
+    <text x="44" y="32" fill="#F1F5F9" font-family="sans-serif" font-size="13" font-weight="700">LLM</text>
+  </g>
+
+  <!-- Left: Gemini API Node -->
+  <g transform="translate(24, 150)">
+    <rect width="96" height="54" rx="12" fill="#111827" stroke="#3730A3" stroke-width="1.4" />
+    <!-- 4-point Gemini star -->
+    <path d="M24 15 Q24 27 12 27 Q24 27 24 39 Q24 27 36 27 Q24 27 24 15 Z" fill="url(#geminiGrad)" filter="url(#coreGlow)" />
+    <text x="44" y="27" fill="#F1F5F9" font-family="sans-serif" font-size="11" font-weight="700">Gemini</text>
+    <text x="44" y="42" fill="#94A3B8" font-family="sans-serif" font-size="11" font-weight="600">API</text>
+  </g>
+
+  <!-- Connecting Lines Left -> Center -->
+  <path d="M120 102 C150 102, 150 140, 180 140" fill="none" stroke="#818CF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.85" />
+  <path d="M120 177 C150 177, 150 140, 180 140" fill="none" stroke="#818CF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.85" />
+
+  <!-- Center: Glowing AI Neural Core Container -->
+  <g transform="translate(180, 68)">
+    <!-- Outer Glow Container -->
+    <rect width="135" height="144" rx="24" fill="#0B0F1A" stroke="url(#purpleNeon)" stroke-width="2.5" filter="url(#neonGlow)" opacity="0.9" />
+    <rect width="135" height="144" rx="24" fill="#0B0F1A" stroke="url(#purpleNeon)" stroke-width="1.8" />
+
+    <!-- Exact AI Robot Mask / Neural Face Icon from Reference -->
+    <g transform="translate(32, 24)" filter="url(#coreGlow)">
+      <!-- Outer Face Contour with Chin Indentation -->
+      <path d="M35 8 C16 8 8 20 8 38 C8 54 18 64 22 74 C26 84 31 86 35 86 C39 86 44 84 48 74 C52 64 62 54 62 38 C62 20 54 8 35 8 Z" 
+            fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Center Vertical Divider Line -->
+      <line x1="35" y1="12" x2="35" y2="82" stroke="#E879F9" stroke-width="2.2" stroke-dasharray="4,3" stroke-linecap="round" />
+
+      <!-- Eye / Sensor Circuit Nodes -->
+      <circle cx="22" cy="36" r="4" fill="#E879F9" />
+      <circle cx="48" cy="36" r="4" fill="#E879F9" />
+
+      <!-- Cheek Circuit Tracks with Terminal Nodes -->
+      <path d="M10 48 L22 48 L28 58" fill="none" stroke="#C084FC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="28" cy="58" r="3.5" fill="#38BDF8" />
+
+      <path d="M60 48 L48 48 L42 58" fill="none" stroke="#C084FC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="42" cy="58" r="3.5" fill="#38BDF8" />
+
+      <!-- Center Nose/Mouth Bridge Node -->
+      <circle cx="35" cy="48" r="3" fill="#FFFFFF" />
+    </g>
+  </g>
+
+  <!-- Connecting Lines Center -> Right -->
+  <path d="M315 140 C340 140, 340 102, 360 102" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.85" />
+  <path d="M315 140 C340 140, 340 177, 360 177" fill="none" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.85" />
+
+  <!-- Right: Vector DB Node -->
+  <g transform="translate(350, 75)">
+    <rect width="86" height="54" rx="12" fill="#111827" stroke="#3730A3" stroke-width="1.4" />
+    <!-- DB Cylinder Stack -->
+    <g transform="translate(14, 12)" fill="#818CF8" opacity="0.95">
+      <ellipse cx="14" cy="5" rx="12" ry="4" fill="#C084FC" />
+      <path d="M2 5 v6 c0 2.2 5.4 4 12 4 s12 -1.8 12 -4 v-6 Z" fill="#818CF8" />
+      <path d="M2 13 v6 c0 2.2 5.4 4 12 4 s12 -1.8 12 -4 v-6 Z" fill="#6366F1" />
+    </g>
+    <text x="44" y="27" fill="#F1F5F9" font-family="sans-serif" font-size="10" font-weight="700">Vector</text>
+    <text x="44" y="41" fill="#94A3B8" font-family="sans-serif" font-size="10" font-weight="600">DB</text>
+  </g>
+
+  <!-- Right: AI Agents Node -->
+  <g transform="translate(350, 150)">
+    <rect width="86" height="54" rx="12" fill="#111827" stroke="#3730A3" stroke-width="1.4" />
+    <!-- Bot Icon -->
+    <g transform="translate(10, 14)" fill="#C084FC">
+      <rect x="4" y="6" width="18" height="15" rx="4" fill="#6366F1" />
+      <circle cx="9" cy="13" r="2" fill="#FFFFFF" />
+      <circle cx="17" cy="13" r="2" fill="#FFFFFF" />
+      <line x1="13" y1="2" x2="13" y2="6" stroke="#C084FC" stroke-width="2" />
+      <circle cx="13" cy="2" r="1.5" fill="#E879F9" />
+    </g>
+    <text x="38" y="27" fill="#F1F5F9" font-family="sans-serif" font-size="10" font-weight="700">AI</text>
+    <text x="38" y="41" fill="#94A3B8" font-family="sans-serif" font-size="10" font-weight="600">Agents</text>
+  </g>
+</svg>

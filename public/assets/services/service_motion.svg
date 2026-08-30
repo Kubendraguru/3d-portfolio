@@ -1,9 +1,154 @@
-<svg width='400' height='300' viewBox='0 0 400 300' fill='none' xmlns='http://www.w3.org/2000/svg'>
-  <rect width='400' height='300' rx='16' fill='#130E05'/>
-  <rect x='1' y='1' width='398' height='298' rx='15' stroke='rgba(255,255,255,0.1)'/>
-  <path d='M30 180 Q 100 40, 200 150 T 370 120' stroke='#F59E0B' stroke-width='4' fill='none' stroke-linecap='round' filter='drop-shadow(0 0 10px #F59E0B)'/>
-  <path d='M30 200 Q 100 80, 200 170 T 370 150' stroke='#EF4444' stroke-width='2' fill='none' stroke-linecap='round' opacity='0.6'/>
-  <path d='M30 220 Q 100 120, 200 190 T 370 180' stroke='#EC4899' stroke-width='1.5' fill='none' stroke-linecap='round' opacity='0.4'/>
-  <circle cx='200' cy='150' r='8' fill='#FFFFFF' stroke='#F59E0B' stroke-width='3'/>
-  <text x='20' y='35' fill='#F59E0B' font-family='monospace' font-size='12' font-weight='bold'>// 60FPS_KINETIC_EASING</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 280" width="100%" height="100%">
+  <defs>
+    <linearGradient id="motionBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B14" />
+      <stop offset="100%" stop-color="#0E1322" />
+    </linearGradient>
+    <linearGradient id="cyanPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#818CF8" />
+      <stop offset="100%" stop-color="#C084FC" />
+    </linearGradient>
+    <linearGradient id="goldOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Clean Dark Card Background with zero white borders -->
+  <rect width="460" height="280" rx="18" fill="url(#motionBg)" stroke="#1E293B" stroke-width="1.2" />
+
+  <!-- Code Header -->
+  <text x="24" y="34" fill="#F59E0B" font-family="monospace" font-size="11" font-weight="700" letter-spacing="1.5">// KINETIC_CHOREOGRAPHY</text>
+
+  <!-- Studio Window Title Bar -->
+  <g transform="translate(18, 44)">
+    <rect width="424" height="22" rx="6" fill="#0A0F1D" stroke="#1E293B" stroke-width="1" />
+    <!-- Traffic lights -->
+    <circle cx="14" cy="11" r="3" fill="#EF4444" />
+    <circle cx="24" cy="11" r="3" fill="#F59E0B" />
+    <circle cx="34" cy="11" r="3" fill="#10B981" />
+    <text x="175" y="15" fill="#64748B" font-family="monospace" font-size="8">studio.gemini.js // 60fps</text>
+  </g>
+
+  <!-- Left: Timeline Sequencer Tracks -->
+  <g transform="translate(18, 70)">
+    <rect width="135" height="150" rx="8" fill="#0A0F1D" stroke="#1E293B" stroke-width="1" />
+    
+    <!-- Timeline Header -->
+    <text x="10" y="16" fill="#E2E8F0" font-family="sans-serif" font-size="9" font-weight="700">Play ▶</text>
+    <rect x="52" y="7" width="1" height="12" fill="#334155" />
+    <text x="60" y="16" fill="#64748B" font-family="monospace" font-size="8">0  5  10 15 20</text>
+
+    <!-- Track 1: Camera -->
+    <g transform="translate(6, 26)">
+      <rect width="123" height="26" rx="4" fill="#131C2E" />
+      <text x="6" y="17" fill="#94A3B8" font-family="monospace" font-size="8">Camera.3D</text>
+      <!-- Keyframe diamonds -->
+      <polygon points="68,13 72,9 76,13 72,17" fill="#38BDF8" />
+      <polygon points="105,13 109,9 113,13 109,17" fill="#38BDF8" />
+    </g>
+
+    <!-- Track 2: Mesh Orbit -->
+    <g transform="translate(6, 56)">
+      <rect width="123" height="26" rx="4" fill="#1E1B4B" />
+      <text x="6" y="17" fill="#C084FC" font-family="monospace" font-size="8">Mesh.Orbit</text>
+      <rect x="58" y="10" width="50" height="6" rx="3" fill="#6366F1" opacity="0.6" />
+      <polygon points="58,13 62,9 66,13 62,17" fill="#E879F9" />
+      <polygon points="108,13 112,9 116,13 112,17" fill="#E879F9" />
+    </g>
+
+    <!-- Track 3: Curves -->
+    <g transform="translate(6, 86)">
+      <rect width="123" height="26" rx="4" fill="#131C2E" />
+      <text x="6" y="17" fill="#94A3B8" font-family="monospace" font-size="8">Easing.Path</text>
+      <polygon points="80,13 84,9 88,13 84,17" fill="#F59E0B" />
+    </g>
+
+    <!-- Track 4: Particles -->
+    <g transform="translate(6, 116)">
+      <rect width="123" height="26" rx="4" fill="#131C2E" />
+      <text x="6" y="17" fill="#94A3B8" font-family="monospace" font-size="8">Particles</text>
+      <polygon points="95,13 99,9 103,13 99,17" fill="#10B981" />
+    </g>
+
+    <!-- Scrubber line -->
+    <line x1="72" y1="20" x2="72" y2="145" stroke="#38BDF8" stroke-width="1.5" />
+    <polygon points="68,20 76,20 72,25" fill="#38BDF8" />
+  </g>
+
+  <!-- Center: 3D Kinetic Motion Choreography & Neon Curves -->
+  <g transform="translate(160, 70)">
+    <!-- 3D Perspective Grid -->
+    <g stroke="#1E293B" stroke-width="0.8" fill="none">
+      <path d="M20 120 L160 120 L210 150 L-10 150 Z" />
+      <line x1="20" y1="120" x2="-10" y2="150" />
+      <line x1="60" y1="120" x2="45" y2="150" />
+      <line x1="100" y1="120" x2="100" y2="150" />
+      <line x1="140" y1="120" x2="155" y2="150" />
+    </g>
+
+    <!-- 3D Holographic Poly Glass Facets -->
+    <g stroke="#38BDF8" stroke-width="1.2" fill="#38BDF8" fill-opacity="0.12">
+      <polygon points="80,20 120,40 100,90 60,70" />
+      <polygon points="120,40 145,25 125,75 100,90" fill-opacity="0.2" />
+    </g>
+
+    <!-- Fluid Glowing Neon Kinetic Curves -->
+    <path d="M-10 100 C30 20, 80 140, 140 30 C170 -20, 190 60, 200 40" 
+          fill="none" stroke="url(#cyanPurple)" stroke-width="3.5" stroke-linecap="round" filter="url(#neonGlow)" />
+    <path d="M0 110 C40 35, 90 150, 145 45" 
+          fill="none" stroke="#E879F9" stroke-width="1.8" stroke-linecap="round" opacity="0.8" />
+    
+    <!-- Motion Flow Trajectory Arrow -->
+    <path d="M120 40 C140 15, 170 10, 190 25" 
+          fill="none" stroke="url(#goldOrange)" stroke-width="2" stroke-dasharray="4,2" />
+    <polygon points="190,25 182,20 184,28" fill="#F59E0B" />
+
+    <!-- 3D Raytraced Glass Spheres with Specular Highlights -->
+    <!-- Sphere 1 -->
+    <g transform="translate(50, 110)">
+      <circle cx="16" cy="16" r="16" fill="#1E293B" stroke="#60A5FA" stroke-width="1" />
+      <circle cx="12" cy="12" r="5" fill="#93C5FD" opacity="0.6" filter="url(#neonGlow)" />
+      <circle cx="10" cy="10" r="2" fill="#FFFFFF" />
+    </g>
+
+    <!-- Sphere 2 -->
+    <g transform="translate(130, 45)">
+      <circle cx="12" cy="12" r="12" fill="#1E1B4B" stroke="#C084FC" stroke-width="1" />
+      <circle cx="9" cy="9" r="4" fill="#E879F9" opacity="0.6" />
+      <circle cx="8" cy="8" r="1.5" fill="#FFFFFF" />
+    </g>
+  </g>
+
+  <!-- Lower Right: Floating Curve-Editor Easing Window -->
+  <g transform="translate(325, 115)">
+    <rect width="115" height="105" rx="8" fill="#0A0F1D" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Window Header -->
+    <text x="8" y="14" fill="#E2E8F0" font-family="sans-serif" font-size="7.5" font-weight="700">Curve-editor</text>
+    <text x="96" y="14" fill="#64748B" font-family="monospace" font-size="8">↗ ✕</text>
+    
+    <!-- Easing Grid -->
+    <g transform="translate(8, 22)">
+      <rect width="99" height="72" rx="4" fill="#060A12" stroke="#1E293B" stroke-width="0.8" />
+      <line x1="33" y1="0" x2="33" y2="72" stroke="#1E293B" stroke-width="0.5" stroke-dasharray="2,2" />
+      <line x1="66" y1="0" x2="66" y2="72" stroke="#1E293B" stroke-width="0.5" stroke-dasharray="2,2" />
+      <line x1="0" y1="36" x2="99" y2="36" stroke="#1E293B" stroke-width="0.5" stroke-dasharray="2,2" />
+
+      <!-- S-Curve Cubic Bezier -->
+      <path d="M8 64 C35 64, 55 8, 90 8" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+      <!-- Tangent Handles and Diamond Nodes -->
+      <polygon points="55,36 60,31 65,36 60,41" fill="#94A3B8" />
+      <circle cx="8" cy="64" r="3" fill="#FFFFFF" />
+      <circle cx="90" cy="8" r="3" fill="#FFFFFF" />
+    </g>
+  </g>
+
+  <!-- Bottom Status Indicator -->
+  <text x="24" y="248" fill="#34D399" font-family="monospace" font-size="9" font-weight="700" letter-spacing="1">// KINETIC CHOREOGRAPHY &amp; STORYTELLING: ACTIVE</text>
 </svg>

@@ -12,7 +12,7 @@ export interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
   price?: string;
   /** right half of the split pill, coloured by `badgeVariant` */
   badgeLabel?: string;
-  badgeVariant?: "success" | "warning";
+  badgeVariant?: "success" | "warning" | "purple" | "blue";
   imageSrc?: string;
   imageAlt?: string;
   /** wraps the card in a plain `<a>` tag */
@@ -27,6 +27,8 @@ const BADGE_LABEL_CLASSES_LIGHT: Record<
 > = {
   success: "bg-emerald-500/15 text-emerald-700",
   warning: "bg-amber-500/20 text-amber-700",
+  purple: "bg-purple-500/15 text-purple-700",
+  blue: "bg-blue-500/15 text-blue-700",
 };
 
 const BADGE_LABEL_CLASSES_DARK: Record<
@@ -35,6 +37,8 @@ const BADGE_LABEL_CLASSES_DARK: Record<
 > = {
   success: "bg-emerald-500/25 text-emerald-300",
   warning: "bg-amber-500/30 text-amber-300",
+  purple: "bg-purple-500/25 text-purple-300",
+  blue: "bg-blue-500/25 text-blue-300",
 };
 
 export function TiltCard({
@@ -100,7 +104,7 @@ export function TiltCard({
           "relative group overflow-hidden select-none",
           "bg-white border border-neutral-200 rounded-2xl sm:rounded-3xl shadow-sm",
           "flex flex-col gap-4",
-          "h-48 sm:h-52 md:h-56 w-full",
+          "min-h-[220px] sm:min-h-[235px] md:min-h-[245px] w-full",
           "hover:shadow-2xl hover:scale-[1.02] transition-all duration-400 ease-out",
           className,
         )}
@@ -109,7 +113,7 @@ export function TiltCard({
         {/* LAYER 1: BASE WHITE CARD (Dark text on White Background) */}
         {/* ========================================================= */}
         <div className="flex flex-row justify-between px-5 sm:px-7 py-5 sm:py-6 relative z-10 w-full h-full pointer-events-none">
-          <div className="flex flex-col gap-1 flex-1 max-w-[60%] sm:max-w-[65%] mr-2">
+          <div className="flex flex-col gap-1 flex-1 max-w-[55%] sm:max-w-[62%] mr-2">
             <h2 className="text-lg sm:text-xl tracking-tight leading-tight font-bold text-neutral-950 font-sans">
               {title}
             </h2>
@@ -148,15 +152,15 @@ export function TiltCard({
           <img
             src={imageSrc}
             alt={imageAlt}
-            width={288}
-            height={224}
+            width={300}
+            height={200}
             loading="lazy"
             decoding="async"
             className={cn(
-              "absolute z-10 top-20 sm:top-24 w-64 sm:w-72 -right-8 sm:-right-10 pointer-events-none object-cover",
-              "rotate-[-5deg] border border-neutral-200 rounded-xl shadow-md",
+              "absolute z-10 top-24 sm:top-26 w-64 sm:w-76 -right-6 sm:-right-8 pointer-events-none object-contain",
+              "rotate-[-4deg] rounded-xl shadow-xl",
               "transition-transform duration-300 ease-out",
-              "group-hover:-rotate-3 group-hover:-translate-y-1 group-hover:-translate-x-0.5",
+              "group-hover:-rotate-2 group-hover:-translate-y-1.5 group-hover:-translate-x-0.5",
             )}
           />
         )}
@@ -209,15 +213,15 @@ export function TiltCard({
             <img
               src={imageSrc}
               alt={imageAlt}
-              width={288}
-              height={224}
+              width={300}
+              height={200}
               loading="lazy"
               decoding="async"
               className={cn(
-                "absolute z-10 top-20 sm:top-24 w-64 sm:w-72 -right-8 sm:-right-10 pointer-events-none object-cover",
-                "rotate-[-5deg] border border-neutral-700 rounded-xl shadow-2xl",
+                "absolute z-10 top-24 sm:top-26 w-64 sm:w-76 -right-6 sm:-right-8 pointer-events-none object-contain",
+                "rotate-[-4deg] rounded-xl shadow-2xl",
                 "transition-transform duration-300 ease-out",
-                "group-hover:-rotate-3 group-hover:-translate-y-1 group-hover:-translate-x-0.5",
+                "group-hover:-rotate-2 group-hover:-translate-y-1.5 group-hover:-translate-x-0.5",
               )}
             />
           )}
