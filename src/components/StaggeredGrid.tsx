@@ -4,7 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import imagesLoaded from 'imagesloaded'
 import { cn } from '../lib/utils'
-import { FaGithub, FaSlack, FaTwitter } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaEnvelope, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -31,13 +31,56 @@ export interface StaggeredGridProps {
     scroller?: string | Element | Window | null
 }
 
+const CONNECTIVE_TOOLS = [
+    {
+        name: 'GitHub',
+        icon: FaGithub,
+        label: 'GitHub',
+        href: 'https://github.com/Kubendraguru',
+        hoverBorder: 'group-hover:border-white/60',
+        hoverText: 'group-hover:text-white',
+    },
+    {
+        name: 'LinkedIn',
+        icon: FaLinkedin,
+        label: 'LinkedIn',
+        href: 'https://linkedin.com',
+        hoverBorder: 'group-hover:border-[#0A66C2]/80',
+        hoverText: 'group-hover:text-[#38BDF8]',
+    },
+    {
+        name: 'Email',
+        icon: FaEnvelope,
+        label: 'Email',
+        href: 'mailto:kubendraguru07@gmail.com',
+        hoverBorder: 'group-hover:border-[#38BDF8]/80',
+        hoverText: 'group-hover:text-[#38BDF8]',
+    },
+    {
+        name: 'Instagram',
+        icon: FaInstagram,
+        label: 'Instagram',
+        href: 'https://instagram.com',
+        hoverBorder: 'group-hover:border-[#E1306C]/80',
+        hoverText: 'group-hover:text-[#E1306C]',
+    },
+    {
+        name: 'WhatsApp',
+        icon: FaWhatsapp,
+        label: 'WhatsApp',
+        href: 'https://wa.me/919999999999',
+        hoverBorder: 'group-hover:border-[#25D366]/80',
+        hoverText: 'group-hover:text-[#25D366]',
+    },
+];
+
 export function StaggeredGrid({
     images = [],
     bentoItems = [],
-    centerText = "HALCYON",
+    centerText = "KUBENDRA",
     credits = {
-        madeBy: { text: "@codrops", href: "https://x.com/codrops" },
-        moreDemos: { text: "More demos", href: "https://tympanus.net/codrops/demos" }
+        madeBy: { text: "@Kubendraguru", href: "https://github.com/Kubendraguru" },
+        moreDemos: { text: "Contact Me", href: "#contact" }
     },
     className,
     showFooter = false,
@@ -262,7 +305,7 @@ export function StaggeredGrid({
                                                     </div>
                                                 </div>
 
-                                                {/* Inactive State - Icon Only or Compact Title */}
+                                                {/* Inactive State - Icon Only */}
                                                 <div className={cn(
                                                     "absolute inset-0 flex flex-col items-center justify-center gap-1 transition-all duration-500 p-1",
                                                     isActive ? "opacity-0 scale-90 pointer-events-none" : "opacity-100 scale-100"
@@ -281,27 +324,40 @@ export function StaggeredGrid({
                         if (i === 17 || i === 18) return null;
 
                         if (typeof item === 'string') {
-                            const Icon = i % 3 === 0 ? FaGithub : i % 3 === 1 ? FaSlack : FaTwitter;
-                            const label = i % 3 === 0 ? "Github" : i % 3 === 1 ? "Slack" : "Twitter";
+                            const toolIndex = i % CONNECTIVE_TOOLS.length;
+                            const tool = CONNECTIVE_TOOLS[toolIndex];
+                            const Icon = tool.icon;
 
                             return (
-                                <figure key={`img-${i}`} data-col={i % 7} className="grid__item m-0 relative z-10 [perspective:800px] will-change-[transform,opacity] group cursor-pointer">
-                                    <div className="grid__item-img w-full h-full [backface-visibility:hidden] will-change-transform rounded-lg sm:rounded-xl overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center transition-all duration-500 ease-out group-hover:scale-105 group-hover:shadow-xl group-hover:border-sky-500/50">
-
+                                <a
+                                    key={`tool-${i}`}
+                                    href={tool.href}
+                                    target={tool.name === 'Email' ? '_self' : '_blank'}
+                                    rel="noopener noreferrer"
+                                    data-col={i % 7}
+                                    className="grid__item m-0 relative z-10 [perspective:800px] will-change-[transform,opacity] group cursor-pointer block"
+                                >
+                                    <div className={cn(
+                                        "grid__item-img w-full h-full [backface-visibility:hidden] will-change-transform rounded-lg sm:rounded-xl overflow-hidden shadow-sm border border-zinc-200 dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center transition-all duration-500 ease-out group-hover:scale-105 group-hover:shadow-xl",
+                                        tool.hoverBorder
+                                    )}>
                                         {/* Gradient Overlay for Hover */}
                                         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/80 to-black backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
                                         {/* Content Container */}
                                         <div className="relative z-10 flex flex-col items-center justify-center gap-1 sm:gap-2 p-1">
-                                            <Icon className="w-4 h-4 sm:w-6 sm:h-6 text-zinc-400 dark:text-zinc-500 transition-all duration-300 group-hover:text-white group-hover:scale-110" />
+                                            <Icon className={cn(
+                                                "w-4 h-4 sm:w-6 sm:h-6 text-zinc-400 dark:text-zinc-500 transition-all duration-300 group-hover:scale-110",
+                                                tool.hoverText
+                                            )} />
 
                                             <div className="text-center opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-75">
-                                                <span className="block text-[7px] sm:text-[9px] font-medium text-white/90 uppercase tracking-wider mb-0.5">Build with</span>
-                                                <span className="block text-[9px] sm:text-xs font-bold text-white tracking-tight">{label}</span>
+                                                <span className="block text-[7px] sm:text-[9px] font-medium text-white/90 uppercase tracking-wider mb-0.5">Connect on</span>
+                                                <span className="block text-[9px] sm:text-xs font-bold text-white tracking-tight">{tool.label}</span>
                                             </div>
                                         </div>
                                     </div>
-                                </figure>
+                                </a>
                             )
                         }
                         return null;
