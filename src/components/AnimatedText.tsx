@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 interface AnimatedTextProps {
   text: string;
   className?: string;
+  externalProgress?: MotionValue<number>;
+  range?: [number, number];
 }
 
 interface CharProps {
@@ -14,11 +16,12 @@ interface CharProps {
 
 const Char: React.FC<CharProps> = ({ children, progress, range }) => {
   const opacity = useTransform(progress, range, [0.2, 1]);
+  const color = useTransform(progress, range, ['rgba(215, 226, 234, 0.25)', 'rgba(255, 255, 255, 1)']);
 
   return (
     <span className="relative inline-block">
       <span className="invisible">{children}</span>
-      <motion.span style={{ opacity }} className="absolute inset-0 select-none">
+      <motion.span style={{ opacity, color }} className="absolute inset-0 select-none">
         {children}
       </motion.span>
     </span>
@@ -52,13 +55,21 @@ const Word: React.FC<WordProps> = ({ children, progress, wordStartIndex, totalCh
   );
 };
 
-export const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = '' }) => {
+export const AnimatedText: React.FC<AnimatedTextProps> = ({
+  text,
+  className = '',
+  externalProgress,
+  range = [0, 1],
+}) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
 
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: internalScrollProgress } = useScroll({
     target: containerRef,
     offset: ['start 0.8', 'end 0.2'],
   });
+
+  const rawProgress = externalProgress || internalScrollProgress;
+  const progress = useTransform(rawProgress, range, [0, 1]);
 
   const words = text.split(' ');
   const totalChars = text.length;
@@ -74,7 +85,7 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = ''
         return (
           <React.Fragment key={index}>
             <Word
-              progress={scrollYProgress}
+              progress={progress}
               wordStartIndex={wordStartIndex}
               totalChars={totalChars}
             >

@@ -104,13 +104,15 @@ export const HeroSection: React.FC = () => {
             />
           </div>
 
-          {/* Nav CTA Button */}
-          <button
-            onClick={(e) => handleScrollTo(e, '#contact')}
-            className="liquid-glass rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-foreground hover:scale-[1.03] transition-transform duration-200 cursor-pointer uppercase tracking-wider font-medium whitespace-nowrap"
+          {/* Right: Portfolio Typography Link matching Logo */}
+          <a
+            href="#projects"
+            onClick={(e) => handleScrollTo(e, '#projects')}
+            style={{ fontFamily: "'Instrument Serif', serif" }}
+            className="text-2xl sm:text-3xl tracking-tight text-foreground select-none hover:opacity-80 hover:text-[#38D9FF] transition-all whitespace-nowrap cursor-pointer"
           >
-            Contact Me
-          </button>
+            Portfolio<sup className="text-xs">®</sup>
+          </a>
         </nav>
       </header>
 
@@ -118,32 +120,39 @@ export const HeroSection: React.FC = () => {
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-40 py-[90px] max-w-7xl mx-auto w-full flex-1">
         <h1
           style={{ fontFamily: "'Instrument Serif', serif" }}
-          className="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise select-none"
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-[#F5F7FA] animate-fade-rise select-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
         >
           Where{' '}
-          <em className="not-italic text-muted-foreground">dreams</em> rise{' '}
-          <em className="not-italic text-muted-foreground">
+          <span className="not-italic text-[#38D9FF] font-light drop-shadow-[0_0_25px_rgba(56,217,255,0.45)]">
+            dreams
+          </span>{' '}
+          rise{' '}
+          <span className="not-italic text-[#79CFFF] font-light drop-shadow-[0_0_20px_rgba(121,207,255,0.35)]">
             through the silence.
-          </em>
+          </span>
         </h1>
 
-        <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay font-normal">
-          A 3D creator driven by crafting striking and unforgettable projects.
+        <p className="text-[#A7B0BA] text-base sm:text-lg md:text-xl max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay font-normal drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)]">
+          A 3D creator driven by crafting{' '}
+          <span className="text-[#F5F7FA] font-medium">striking and unforgettable projects</span>.
           Designing digital spaces for sharp focus and inspired visual work.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4 mt-12 animate-fade-rise-delay-2">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 mt-12 animate-fade-rise-delay-2">
+          {/* View Projects Button (Primary Electric Cyan) */}
           <button
             onClick={(e) => handleScrollTo(e, '#projects')}
-            className="liquid-glass rounded-full px-12 py-4 sm:px-14 sm:py-5 text-base text-foreground hover:scale-[1.03] cursor-pointer transition-transform duration-200 uppercase tracking-wider font-medium"
+            className="w-full sm:w-auto px-10 py-4 sm:px-12 sm:py-4.5 rounded-full bg-[#061522]/85 backdrop-blur-xl border border-[#38D9FF] text-[#F5F7FA] font-bold text-sm sm:text-base uppercase tracking-widest transition-all duration-300 hover:bg-[#38D9FF] hover:text-[#061522] hover:shadow-[0_0_35px_rgba(56,217,255,0.55)] hover:scale-[1.04] cursor-pointer shadow-[0_0_20px_rgba(56,217,255,0.25)]"
           >
-            View Projects
+            <span>View Projects</span>
           </button>
+
+          {/* Contact Me Button (Secondary Soft Blue Glass) */}
           <button
-            onClick={(e) => handleScrollTo(e, '#about')}
-            className="liquid-glass rounded-full px-10 py-4 sm:px-12 sm:py-5 text-base text-muted-foreground hover:text-foreground hover:scale-[1.03] cursor-pointer transition-transform duration-200 uppercase tracking-wider font-medium"
+            onClick={(e) => handleScrollTo(e, '#contact')}
+            className="w-full sm:w-auto px-10 py-4 sm:px-12 sm:py-4.5 rounded-full bg-white/[0.04] backdrop-blur-xl border border-[#496576] text-[#A7B0BA] font-bold text-sm sm:text-base uppercase tracking-widest transition-all duration-300 hover:border-[#79CFFF] hover:text-[#79CFFF] hover:shadow-[0_0_25px_rgba(121,207,255,0.3)] hover:scale-[1.04] cursor-pointer"
           >
-            Contact Me
+            <span>Contact Me</span>
           </button>
         </div>
       </div>

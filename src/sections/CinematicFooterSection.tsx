@@ -1,26 +1,34 @@
 import React, { useState, useRef } from 'react';
-import { Volume2, VolumeX, ArrowUpRight, Check, Copy, Sparkles } from 'lucide-react';
+import { Volume2, ArrowUpRight, Check, Copy, Sparkles } from 'lucide-react';
 
 const BOY_SWING_VIDEO = 'https://res.cloudinary.com/qrhgjdrs/video/upload/v1788081355/boy-swing_gzljlr.mp4';
 
 export const CinematicFooterSection: React.FC = () => {
-  const [isMuted, setIsMuted] = useState(true);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [copied, setCopied] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const emailAddress = 'kubendraguru23@gmail.com';
 
-  const toggleAudio = () => {
-    const nextMuted = !isMuted;
-    setIsMuted(nextMuted);
-
+  const handleMouseEnter = () => {
+    setIsPlayingAudio(true);
     if (videoRef.current) {
-      videoRef.current.muted = nextMuted;
-      if (!nextMuted) {
-        videoRef.current.volume = 0.85;
-        videoRef.current.play().catch(() => {});
-      }
+      videoRef.current.muted = false;
+      videoRef.current.volume = 0.85;
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch((err) => {
+        console.log('Audio & Video playback prevented on hover:', err);
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsPlayingAudio(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.muted = true;
+      videoRef.current.currentTime = 0;
     }
   };
 
@@ -61,7 +69,7 @@ export const CinematicFooterSection: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#CCFF00]/5 rounded-full blur-[140px] pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col gap-8 sm:gap-10">
-        {/* 1. Header Toolbar: Monogram + Nav + Audio Controls */}
+        {/* 1. Header Toolbar: Monogram + Nav + Direct Email Form */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           {/* Left: Brand Monogram */}
           <div className="flex items-center gap-3">
@@ -97,27 +105,8 @@ export const CinematicFooterSection: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right: Audio Toggle & Direct Email Form */}
+          {/* Right: Direct Email Form */}
           <div className="flex items-center gap-3">
-            {/* Audio Toggle Pill */}
-            <button
-              onClick={toggleAudio}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs text-white transition-all cursor-pointer shadow-md"
-              title={isMuted ? 'Turn Audio On' : 'Mute Audio'}
-            >
-              {isMuted ? (
-                <>
-                  <VolumeX className="w-3.5 h-3.5 text-white/60" />
-                  <span className="text-[11px] hidden sm:inline">Muted</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-[#CCFF00] animate-pulse" />
-                  <span className="text-[11px] text-[#CCFF00] font-bold hidden sm:inline">Sound On</span>
-                </>
-              )}
-            </button>
-
             {/* Email Trigger Pill */}
             <form
               onSubmit={handleCopyOrSend}
@@ -140,18 +129,36 @@ export const CinematicFooterSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. Panoramic Banner Strip: Exactly matching the 1024x376 size reference from Image 2 */}
-        <div className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#EBE6DD] border-2 border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.85)] group">
+        {/* 2. Panoramic Banner Strip: Exactly matching the 1024x376 size reference with Hover-to-Play-Audio */}
+        <div
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="w-full relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#EBE6DD] border-2 border-white/20 shadow-[0_20px_60px_rgba(0,0,0,0.85)] group cursor-pointer transition-all duration-300 hover:border-[#CCFF00]/50 hover:shadow-[0_25px_70px_rgba(204,255,0,0.15)]"
+        >
           {/* Top Mini Toolbar Overlay */}
-          <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-30 font-mono text-[9px] sm:text-[10px] uppercase text-[#111111]/75 select-none pointer-events-none">
-            <span className="flex items-center gap-1.5 bg-black/10 px-2.5 py-0.5 rounded-full backdrop-blur-sm">
+          <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-30 font-mono text-[9px] sm:text-[10px] uppercase select-none pointer-events-none">
+            <span className="flex items-center gap-1.5 bg-black/10 px-2.5 py-0.5 rounded-full backdrop-blur-sm text-[#111111]/75">
               <Sparkles className="w-3 h-3 text-black" />
               <span className="font-bold">Panoramic VR Lab</span>
             </span>
 
-            <span className="text-[#111111]/60 font-semibold tracking-wider hidden sm:inline">
-              [ 1024 × 376 · BANNER STRIP RATIO ]
-            </span>
+            {/* Live Audio Status Indicator */}
+            {isPlayingAudio ? (
+              <div className="flex items-center gap-2 bg-black/90 text-[#CCFF00] px-3 py-1 rounded-full border border-[#CCFF00]/50 backdrop-blur-md shadow-[0_0_20px_rgba(204,255,0,0.35)] transition-all">
+                <span className="flex items-end gap-0.5 h-3 pb-0.5">
+                  <span className="w-0.5 h-2 bg-[#CCFF00] animate-[pulse_0.6s_ease-in-out_infinite]" />
+                  <span className="w-0.5 h-3 bg-[#CCFF00] animate-[pulse_0.4s_ease-in-out_infinite_0.2s]" />
+                  <span className="w-0.5 h-1.5 bg-[#CCFF00] animate-[pulse_0.5s_ease-in-out_infinite_0.1s]" />
+                  <span className="w-0.5 h-2.5 bg-[#CCFF00] animate-[pulse_0.45s_ease-in-out_infinite_0.3s]" />
+                </span>
+                <span className="font-bold text-[10px] tracking-widest text-[#CCFF00]">AUDIO &amp; VIDEO PLAYING</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 bg-black/15 text-neutral-800 px-3 py-0.5 rounded-full backdrop-blur-sm border border-black/10 transition-all group-hover:bg-black/25">
+                <Volume2 className="w-3 h-3 text-neutral-800" />
+                <span className="text-[9px] sm:text-[10px] font-bold tracking-wider">HOVER TO PLAY VIDEO &amp; AUDIO</span>
+              </div>
+            )}
           </div>
 
           {/* Panoramic Strip Container (1024x376 Ratio: 2.72:1) */}
@@ -170,9 +177,9 @@ export const CinematicFooterSection: React.FC = () => {
               <video
                 ref={videoRef}
                 src={BOY_SWING_VIDEO}
-                autoPlay
+                preload="auto"
                 loop
-                muted={isMuted}
+                muted={!isPlayingAudio}
                 playsInline
                 style={{
                   filter: 'sepia(35%) contrast(110%) brightness(98%) saturate(85%) hue-rotate(-6deg)',
