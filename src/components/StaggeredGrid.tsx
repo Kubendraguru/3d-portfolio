@@ -51,16 +51,20 @@ const CONNECTIVE_TOOLS = [
     {
         name: 'Email',
         icon: FaEnvelope,
-        label: 'Email',
-        href: 'mailto:kubendraguru07@gmail.com',
-        hoverBorder: 'group-hover:border-[#38BDF8]/80',
-        hoverText: 'group-hover:text-[#38BDF8]',
+        label: 'Gmail',
+        href: `https://mail.google.com/mail/?view=cm&fs=1&to=kubendraguru23@gmail.com&su=${encodeURIComponent(
+            'Website Project Inquiry — Kubendra Guru'
+        )}&body=${encodeURIComponent(
+            `Hi Kubendra,\n\nI came across your 3D portfolio and I am interested in discussing a website project.\n\nProject Details:\n• Type of Project (e.g. 3D Web Experience, Portfolio, Web Application): \n• Estimated Timeline: \n• Budget Range: \n\nLooking forward to connecting!\n\nBest regards,`
+        )}`,
+        hoverBorder: 'group-hover:border-[#EA4335]/80',
+        hoverText: 'group-hover:text-[#EA4335]',
     },
     {
         name: 'Instagram',
         icon: FaInstagram,
         label: 'Instagram',
-        href: 'https://instagram.com',
+        href: 'https://www.instagram.com/harix_23__/',
         hoverBorder: 'group-hover:border-[#E1306C]/80',
         hoverText: 'group-hover:text-[#E1306C]',
     },
@@ -68,7 +72,9 @@ const CONNECTIVE_TOOLS = [
         name: 'WhatsApp',
         icon: FaWhatsapp,
         label: 'WhatsApp',
-        href: 'https://wa.me/919999999999',
+        href: `https://wa.me/917338790574?text=${encodeURIComponent(
+            "Hi Kubendra, I came across your 3D portfolio and I'd like to discuss a website project!"
+        )}`,
         hoverBorder: 'group-hover:border-[#25D366]/80',
         hoverText: 'group-hover:text-[#25D366]',
     },
@@ -332,7 +338,7 @@ export function StaggeredGrid({
                                 <a
                                     key={`tool-${i}`}
                                     href={tool.href}
-                                    target={tool.name === 'Email' ? '_self' : '_blank'}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     data-col={i % 7}
                                     className="grid__item m-0 relative z-10 [perspective:800px] will-change-[transform,opacity] group cursor-pointer block"

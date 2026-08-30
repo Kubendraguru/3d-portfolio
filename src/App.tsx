@@ -5,6 +5,7 @@ import { ServicesSection } from './sections/ServicesSection';
 import { ProjectsSection } from './sections/ProjectsSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { IsometricShowcaseGrid } from './components/IsometricShowcaseGrid';
+import { CorporateSpidermanSection } from './sections/CorporateSpidermanSection';
 import { ContactSection } from './sections/ContactSection';
 import { CinematicFooterSection } from './sections/CinematicFooterSection';
 
@@ -32,10 +33,13 @@ const App: React.FC = () => {
       {/* 6. Isometric 3D Showcase Grid */}
       <IsometricShowcaseGrid />
 
-      {/* 7. Contact Me Section with Left 3D Lanyard ID Card & Right StaggeredGrid Card */}
+      {/* 7. Corporate Spiderman Editorial Section */}
+      <CorporateSpidermanSection />
+
+      {/* 8. Contact Me Section with Left 3D Lanyard ID Card & Right StaggeredGrid Card */}
       <ContactSection />
 
-      {/* 8. Full-Screen Panoramic VR Video Footer Showcase */}
+      {/* 9. Full-Screen Panoramic VR Video Footer Showcase */}
       <CinematicFooterSection />
     </main>
   );

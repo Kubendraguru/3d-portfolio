@@ -8,7 +8,8 @@ import {
   ArrowUp,
   Github,
   Linkedin,
-  Twitter,
+  Instagram,
+  MessageCircle,
   Clock,
   MapPin,
   RotateCcw,
@@ -24,7 +25,7 @@ export const ContactSection: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [lanyardResetKey, setLanyardResetKey] = useState(0);
 
-  const emailAddress = 'kubendraguru07@gmail.com';
+  const emailAddress = 'kubendraguru23@gmail.com';
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(emailAddress);
@@ -215,9 +216,11 @@ export const ContactSection: React.FC = () => {
                 </motion.button>
               </div>
 
-              {/* Direct Mailto Button */}
+              {/* Direct Gmail Web Compose Button */}
               <a
-                href={`mailto:${emailAddress}?subject=Project%20Inquiry%20from%20Portfolio`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}&su=${encodeURIComponent('Website Project Inquiry — Kubendra Guru')}&body=${encodeURIComponent(`Hi Kubendra,\n\nI came across your 3D portfolio and I am interested in discussing a website project.\n\nProject Details:\n• Type of Project (e.g. 3D Web Experience, Portfolio, Web Application): \n• Estimated Timeline: \n• Budget Range: \n\nLooking forward to connecting!\n\nBest regards,`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-gradient-to-r from-[#D7E2EA] to-white text-black font-semibold uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(215,226,234,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all cursor-pointer whitespace-nowrap"
               >
                 <Send className="w-3.5 h-3.5" />
@@ -226,11 +229,18 @@ export const ContactSection: React.FC = () => {
             </div>
 
             {/* Social Channels Dock */}
-            <div className="grid grid-cols-3 gap-3 p-4 bg-[#0A0A0A] border-t border-white/10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 p-4 bg-[#0A0A0A] border-t border-white/10">
               {[
                 { name: 'GitHub', href: 'https://github.com/Kubendraguru', icon: Github },
                 { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-                { name: 'X / Twitter', href: 'https://twitter.com', icon: Twitter },
+                { name: 'Instagram', href: 'https://www.instagram.com/harix_23__/', icon: Instagram },
+                {
+                  name: 'WhatsApp',
+                  href: `https://wa.me/917338790574?text=${encodeURIComponent(
+                    "Hi Kubendra, I came across your 3D portfolio and I'd like to discuss a website project!"
+                  )}`,
+                  icon: MessageCircle,
+                },
               ].map((social) => {
                 const Icon = social.icon;
                 return (
@@ -244,7 +254,7 @@ export const ContactSection: React.FC = () => {
                     className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#38BDF8]/40 flex items-center justify-center gap-2 text-xs font-medium text-[#D7E2EA] hover:text-white transition-all shadow-sm"
                   >
                     <Icon className="w-3.5 h-3.5 text-[#38BDF8]" />
-                    <span className="hidden sm:inline">{social.name}</span>
+                    <span className="truncate">{social.name}</span>
                   </motion.a>
                 );
               })}

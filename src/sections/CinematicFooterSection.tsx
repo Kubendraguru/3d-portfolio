@@ -9,7 +9,7 @@ export const CinematicFooterSection: React.FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const emailAddress = 'kubendraguru07@gmail.com';
+  const emailAddress = 'kubendraguru23@gmail.com';
 
   const toggleAudio = () => {
     const nextMuted = !isMuted;
@@ -27,9 +27,12 @@ export const CinematicFooterSection: React.FC = () => {
   const handleCopyOrSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (emailInput) {
-      window.location.href = `mailto:${emailAddress}?subject=Project%20Inquiry&body=From:%20${encodeURIComponent(
-        emailInput
+      const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}&su=${encodeURIComponent(
+        'Website Project Inquiry — Kubendra Guru'
+      )}&body=${encodeURIComponent(
+        `Hi Kubendra,\n\nI came across your 3D portfolio and I am interested in discussing a website project.\n\nFrom: ${emailInput}\n\nProject Details:\n• Type of Project (e.g. 3D Web Experience, Portfolio, Web Application): \n• Estimated Timeline: \n• Budget Range: \n\nLooking forward to connecting!\n\nBest regards,`
       )}`;
+      window.open(url, '_blank');
     } else {
       navigator.clipboard.writeText(emailAddress);
       setCopied(true);
@@ -213,7 +216,7 @@ export const CinematicFooterSection: React.FC = () => {
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-4 text-[#CCCCCC]">
+          <div className="flex flex-wrap items-center gap-4 text-[#CCCCCC]">
             <a
               href="https://github.com/Kubendraguru"
               target="_blank"
@@ -231,12 +234,22 @@ export const CinematicFooterSection: React.FC = () => {
               LINKEDIN
             </a>
             <a
-              href="https://twitter.com"
+              href="https://www.instagram.com/harix_23__/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#CCFF00] transition-colors"
             >
-              TWITTER
+              INSTAGRAM
+            </a>
+            <a
+              href={`https://wa.me/917338790574?text=${encodeURIComponent(
+                "Hi Kubendra, I came across your 3D portfolio and I'd like to discuss a website project!"
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#CCFF00] transition-colors"
+            >
+              WHATSAPP
             </a>
           </div>
         </div>

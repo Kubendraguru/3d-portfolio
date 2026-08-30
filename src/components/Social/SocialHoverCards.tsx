@@ -34,7 +34,7 @@ export const SocialHoverCards: React.FC = () => {
 
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigator.clipboard.writeText('kubendraguru07@gmail.com');
+    navigator.clipboard.writeText('kubendraguru23@gmail.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -197,7 +197,7 @@ export const SocialHoverCards: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                       <span className="font-semibold text-sm text-white">Email Kubendra</span>
-                      <span className="text-xs text-white/50 font-mono">kubendraguru07@gmail.com</span>
+                      <span className="text-xs text-white/50 font-mono">kubendraguru23@gmail.com</span>
                     </div>
                     <Mail className="w-5 h-5 text-white/70" />
                   </div>
@@ -222,10 +222,16 @@ export const SocialHoverCards: React.FC = () => {
                     </button>
 
                     <a
-                      href="mailto:kubendraguru07@gmail.com"
-                      className="py-2 px-3 rounded-xl bg-[#007AFF] hover:bg-[#0066D6] text-xs font-semibold text-white flex items-center justify-center gap-1 transition-all shadow-md"
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=kubendraguru23@gmail.com&su=${encodeURIComponent(
+                        'Website Project Inquiry — Kubendra Guru'
+                      )}&body=${encodeURIComponent(
+                        'Hi Kubendra,\n\nI came across your 3D portfolio and I am interested in discussing a website project.\n\nProject Details:\n• Type of Project (e.g. 3D Web Experience, Portfolio, Web Application): \n• Estimated Timeline: \n• Budget Range: \n\nLooking forward to connecting!\n\nBest regards,'
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded-xl bg-[#EA4335] hover:bg-[#D93025] text-xs font-semibold text-white flex items-center justify-center gap-1 transition-all shadow-md"
                     >
-                      <span>Mail Client</span>
+                      <span>Open Gmail</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
