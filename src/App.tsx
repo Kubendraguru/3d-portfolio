@@ -6,6 +6,7 @@ import { ProjectsSection } from './sections/ProjectsSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { IsometricShowcaseGrid } from './components/IsometricShowcaseGrid';
 import { ContactSection } from './sections/ContactSection';
+import { CinematicFooterSection } from './sections/CinematicFooterSection';
 
 const App: React.FC = () => {
   return (
@@ -28,11 +29,14 @@ const App: React.FC = () => {
       {/* 5. Skills & Craft Section */}
       <SkillsSection />
 
-      {/* 6. Isometric 3D Perspective Card Gallery ("You Can Trust") */}
+      {/* 6. Isometric 3D Showcase Grid */}
       <IsometricShowcaseGrid />
 
-      {/* 7. Contact Me Section with Left 3D Lanyard ID Card */}
+      {/* 7. Contact Me Section with Left 3D Lanyard ID Card & Right StaggeredGrid Card */}
       <ContactSection />
+
+      {/* 8. Full-Screen Panoramic VR Video Footer Showcase */}
+      <CinematicFooterSection />
     </main>
   );
 };

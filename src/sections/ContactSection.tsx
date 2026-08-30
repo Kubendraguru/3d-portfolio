@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Mail,
   Copy,
@@ -12,34 +12,16 @@ import {
   Clock,
   MapPin,
   RotateCcw,
-  CheckCircle2,
+  Sparkles,
+  Layers,
+  Code2,
 } from 'lucide-react';
 import { FadeIn } from '../components/FadeIn';
 import { Lanyard } from '../components/Lanyard';
-
-const PROJECT_TYPES = [
-  '3D Web Experience',
-  'Full Stack Platform',
-  'Mobile Application',
-  'Creative WebGL / UI',
-  'Full-Time Role',
-  'Other Inquiry',
-];
-
-const BUDGET_RANGES = ['< $1,000', '$1k – $3k', '$3k – $5k', '$5k+', 'Full-Time Hire'];
+import { StaggeredGrid, BentoItem } from '../components/StaggeredGrid';
 
 export const ContactSection: React.FC = () => {
-  const [selectedType, setSelectedType] = useState<string>('3D Web Experience');
-  const [selectedBudget, setSelectedBudget] = useState<string>('$1k – $3k');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [lanyardResetKey, setLanyardResetKey] = useState(0);
 
   const emailAddress = 'kubendraguru07@gmail.com';
@@ -54,22 +36,43 @@ export const ContactSection: React.FC = () => {
     setLanyardResetKey((prev) => prev + 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setSubmitted(false), 6000);
-    }, 1200);
-  };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const bentoItems: BentoItem[] = [
+    {
+      id: 1,
+      title: '3D Web Experiences',
+      subtitle: 'Three.js · WebGL',
+      description: 'Immersive interactive 3D web applications.',
+      icon: <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />,
+      image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+    },
+    {
+      id: 2,
+      title: 'Creative Direction',
+      subtitle: 'UI/UX · Motion',
+      description: 'High-converting design systems and motion.',
+      icon: <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-lime-400" />,
+      image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
+    },
+    {
+      id: 3,
+      title: 'AI & Fullstack Dev',
+      subtitle: 'React · TypeScript',
+      description: 'Scalable production web applications.',
+      icon: <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-pink-400" />,
+      image: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&auto=format&fit=crop&q=80',
+    },
+  ];
+
+  const gridImages = [
+    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80',
+  ];
 
   return (
     <section
@@ -89,7 +92,7 @@ export const ContactSection: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              Available for New Opportunities & Freelance Projects
+              Available for New Opportunities &amp; Freelance Projects
             </div>
           </FadeIn>
 
@@ -104,16 +107,16 @@ export const ContactSection: React.FC = () => {
 
           <FadeIn delay={0.2} y={20}>
             <p className="text-[#888888] text-sm sm:text-base md:text-lg max-w-2xl font-light leading-relaxed">
-              Interact with the 3D physics ID card on the left (drag & toss!), or drop a direct message below to bring your next vision to life.
+              Interact with the 3D physics ID card on the left (drag &amp; toss!), explore the Staggered Bento Grid on the right, or connect directly.
             </p>
           </FadeIn>
         </div>
 
-        {/* Main Grid: Left 3D Lanyard ID Card (6 Cols) + Right Interactive Console (6 Cols) */}
+        {/* Main Grid: Left 3D Lanyard ID Card (6 Cols) + Right StaggeredGrid Component (6 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Column: Interactive 3D Lanyard Physics ID Card */}
           <div className="lg:col-span-6 flex flex-col rounded-[28px] sm:rounded-[36px] bg-[#0A0A0A] border-2 border-white/10 overflow-hidden shadow-2xl relative min-h-[580px] sm:min-h-[640px]">
-            {/* Background Watermark Typography (Behind Lanyard 3D Canvas) */}
+            {/* Background Watermark Typography */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
               <span
                 style={{ fontSize: 'clamp(3rem, 7vw, 5rem)', fontFamily: "'Kanit', sans-serif" }}
@@ -123,7 +126,7 @@ export const ContactSection: React.FC = () => {
               </span>
             </div>
 
-            {/* Top Toolbar: Status Tag & Physics Reset Button */}
+            {/* Top Toolbar */}
             <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-20">
               <span className="text-[11px] font-mono uppercase tracking-widest text-white/70 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
                 ⚡ 3D Physics Pass
@@ -131,7 +134,7 @@ export const ContactSection: React.FC = () => {
 
               <div className="flex items-center gap-2">
                 <span className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-wider text-[#38BDF8] animate-pulse mr-1">
-                  Drag & Toss
+                  Drag &amp; Toss
                 </span>
                 <button
                   onClick={handleResetPhysics}
@@ -170,30 +173,33 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Interactive Inquiry Console */}
-          <div className="lg:col-span-6 p-6 sm:p-8 md:p-10 rounded-[32px] sm:rounded-[40px] bg-[#0E0E0E] border-2 border-white/10 shadow-2xl flex flex-col justify-between gap-8">
-            <div className="flex flex-col gap-6">
-              {/* Direct Email Copy Ribbon */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="p-2.5 rounded-xl bg-white/5 text-[#38BDF8]">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-[10px] uppercase font-mono tracking-widest text-[#777777]">
-                      Direct Email
-                    </span>
-                    <span className="text-sm font-medium text-white truncate font-mono">
-                      {emailAddress}
-                    </span>
-                  </div>
-                </div>
+          {/* Right Column: Exact StaggeredGrid Showcase Card */}
+          <div className="lg:col-span-6 flex flex-col rounded-[28px] sm:rounded-[36px] bg-[#0A0A0A] border-2 border-white/10 overflow-hidden shadow-2xl relative min-h-[580px] sm:min-h-[640px] justify-between">
+            {/* StaggeredGrid Component Inside the Card */}
+            <div className="w-full flex-1 relative z-10 flex flex-col items-center justify-center overflow-hidden">
+              <StaggeredGrid
+                images={gridImages}
+                bentoItems={bentoItems}
+                centerText="KUBENDRA"
+                showFooter={false}
+              />
+            </div>
 
+            {/* Bottom Direct Email & Contact Action Bar */}
+            <div className="p-4 sm:p-6 bg-[#0E0E0E] border-t border-white/10 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 z-20">
+              {/* Email address pill */}
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div className="p-2 rounded-xl bg-white/5 text-[#38BDF8]">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <span className="text-xs sm:text-sm font-mono text-white/90 truncate font-semibold">
+                  {emailAddress}
+                </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleCopyEmail}
-                  className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-[#38BDF8]/20 border border-white/15 hover:border-[#38BDF8]/50 text-white hover:text-[#38BDF8] text-xs font-mono flex items-center gap-1.5 transition-all select-none whitespace-nowrap"
+                  className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-[#38BDF8]/20 border border-white/15 text-white hover:text-[#38BDF8] text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer"
                 >
                   {copiedEmail ? (
                     <>
@@ -209,145 +215,18 @@ export const ContactSection: React.FC = () => {
                 </motion.button>
               </div>
 
-              {/* Inquiry Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                {/* 1. Project Type Selector */}
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-mono uppercase tracking-wider text-[#888888]">
-                    1. What are you looking to build?
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {PROJECT_TYPES.map((type) => (
-                      <button
-                        key={type}
-                        type="button"
-                        onClick={() => setSelectedType(type)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                          selectedType === type
-                            ? 'bg-[#38BDF8] text-black font-semibold shadow-[0_0_15px_rgba(56,189,248,0.4)]'
-                            : 'bg-white/5 text-[#A0AEC0] border border-white/10 hover:border-white/20 hover:text-white'
-                        }`}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 2. Budget Scope Selector */}
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-mono uppercase tracking-wider text-[#888888]">
-                    2. Approximate Budget / Engagement
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {BUDGET_RANGES.map((budget) => (
-                      <button
-                        key={budget}
-                        type="button"
-                        onClick={() => setSelectedBudget(budget)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                          selectedBudget === budget
-                            ? 'bg-[#7621B0] text-white font-semibold shadow-[0_0_15px_rgba(118,33,176,0.4)] border border-[#7621B0]'
-                            : 'bg-white/5 text-[#A0AEC0] border border-white/10 hover:border-white/20 hover:text-white'
-                        }`}
-                      >
-                        {budget}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 3. Inputs: Name & Email */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase tracking-wider text-[#888888]">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Alex Morgan"
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-[#38BDF8] focus:ring-1 focus:ring-[#38BDF8] text-sm font-sans transition-all"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase tracking-wider text-[#888888]">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="alex@company.com"
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-[#38BDF8] focus:ring-1 focus:ring-[#38BDF8] text-sm font-sans transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* 4. Message Textarea */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-mono uppercase tracking-wider text-[#888888]">
-                    Project Details / Message
-                  </label>
-                  <textarea
-                    required
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Share a brief overview of your timeline, objectives, or questions..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-[#38BDF8] focus:ring-1 focus:ring-[#38BDF8] text-sm font-sans transition-all resize-none"
-                  />
-                </div>
-
-                {/* Submit & Status Bar */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                  <AnimatePresence>
-                    {submitted ? (
-                      <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="flex items-center gap-2 text-emerald-400 text-xs font-mono"
-                      >
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Inquiry received! I'll reply within 24 hours.</span>
-                      </motion.div>
-                    ) : (
-                      <div className="text-[11px] font-mono text-[#777777]">
-                        🔒 Direct delivery · Fast response guaranteed
-                      </div>
-                    )}
-                  </AnimatePresence>
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-[#D7E2EA] to-white text-black font-semibold uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(215,226,234,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all cursor-pointer"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </motion.button>
-                </div>
-              </form>
+              {/* Direct Mailto Button */}
+              <a
+                href={`mailto:${emailAddress}?subject=Project%20Inquiry%20from%20Portfolio`}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-gradient-to-r from-[#D7E2EA] to-white text-black font-semibold uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(215,226,234,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all cursor-pointer whitespace-nowrap"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Send Message</span>
+              </a>
             </div>
 
             {/* Social Channels Dock */}
-            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
+            <div className="grid grid-cols-3 gap-3 p-4 bg-[#0A0A0A] border-t border-white/10">
               {[
                 { name: 'GitHub', href: 'https://github.com/Kubendraguru', icon: Github },
                 { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
@@ -362,10 +241,10 @@ export const ContactSection: React.FC = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.04, y: -2 }}
                     whileTap={{ scale: 0.96 }}
-                    className="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#38BDF8]/40 flex items-center justify-center gap-2 text-xs font-medium text-[#D7E2EA] hover:text-white transition-all shadow-sm"
+                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#38BDF8]/40 flex items-center justify-center gap-2 text-xs font-medium text-[#D7E2EA] hover:text-white transition-all shadow-sm"
                   >
-                    <Icon className="w-4 h-4 text-[#38BDF8]" />
-                    <span>{social.name}</span>
+                    <Icon className="w-3.5 h-3.5 text-[#38BDF8]" />
+                    <span className="hidden sm:inline">{social.name}</span>
                   </motion.a>
                 );
               })}
@@ -380,10 +259,10 @@ export const ContactSection: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <span>Engineered with Next.js, WebGL & Three.js</span>
+            <span>Engineered with React, WebGL &amp; Three.js</span>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-1.5 text-[#D7E2EA] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-[#D7E2EA] hover:text-white transition-colors cursor-pointer"
             >
               <span>Back to top</span>
               <ArrowUp className="w-3.5 h-3.5" />
@@ -394,3 +273,5 @@ export const ContactSection: React.FC = () => {
     </section>
   );
 };
+
+export default ContactSection;

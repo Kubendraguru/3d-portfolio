@@ -26,6 +26,7 @@ export default {
         display: ['var(--font-display)', 'Instrument Serif', 'serif'],
         body: ['var(--font-body)', 'Inter', 'sans-serif'],
         kanit: ['Kanit', 'sans-serif'],
+        figtree: ['Figtree', 'sans-serif'],
       },
     },
   },
