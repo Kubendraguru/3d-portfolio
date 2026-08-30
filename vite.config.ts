@@ -6,6 +6,10 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   assetsInclude: ['**/*.glb'],
+  server: {
+    port: 3000,
+    host: true,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

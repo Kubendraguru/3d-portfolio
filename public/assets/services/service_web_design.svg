@@ -1,0 +1,11 @@
+<svg width='400' height='300' viewBox='0 0 400 300' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <rect width='400' height='300' rx='16' fill='#090D16'/>
+  <rect x='1' y='1' width='398' height='298' rx='15' stroke='rgba(255,255,255,0.1)'/>
+  <circle cx='35' cy='30' r='5' fill='#EF4444'/>
+  <circle cx='50' cy='30' r='5' fill='#F59E0B'/>
+  <circle cx='65' cy='30' r='5' fill='#10B981'/>
+  <rect x='25' y='55' width='160' height='90' rx='12' fill='rgba(56,189,248,0.15)' stroke='#38BDF8' stroke-width='1.5'/>
+  <rect x='200' y='55' width='175' height='90' rx='12' fill='#1E293B'/>
+  <rect x='25' y='160' width='350' height='100' rx='12' fill='#131D2E' stroke='rgba(255,255,255,0.06)'/>
+  <text x='230' y='35' fill='#38BDF8' font-family='monospace' font-size='11'>NEXT.JS 15 + THREE.JS</text>
+</svg>

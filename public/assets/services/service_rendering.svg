@@ -1,0 +1,22 @@
+<svg width='400' height='300' viewBox='0 0 400 300' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <rect width='400' height='300' rx='16' fill='#0B0F19'/>
+  <rect x='1' y='1' width='398' height='298' rx='15' stroke='rgba(255,255,255,0.1)'/>
+  <defs>
+    <radialGradient id='g1' cx='35%' cy='35%' r='65%'>
+      <stop offset='0%' stop-color='#FFFFFF'/>
+      <stop offset='30%' stop-color='#A855F7'/>
+      <stop offset='70%' stop-color='#3B0764'/>
+      <stop offset='100%' stop-color='#000000'/>
+    </radialGradient>
+    <radialGradient id='g2' cx='40%' cy='40%' r='60%'>
+      <stop offset='0%' stop-color='#E0F2FE'/>
+      <stop offset='45%' stop-color='#0284C7'/>
+      <stop offset='100%' stop-color='#031D38'/>
+    </radialGradient>
+  </defs>
+  <circle cx='160' cy='150' r='75' fill='url(#g1)' filter='drop-shadow(0 20px 30px rgba(168,85,247,0.4))'/>
+  <circle cx='260' cy='175' r='50' fill='url(#g2)' filter='drop-shadow(0 15px 25px rgba(2,132,199,0.5))'/>
+  <ellipse cx='160' cy='235' rx='60' ry='12' fill='rgba(0,0,0,0.6)' filter='blur(4px)'/>
+  <ellipse cx='260' cy='230' rx='40' ry='8' fill='rgba(0,0,0,0.6)' filter='blur(4px)'/>
+  <text x='20' y='35' fill='#A855F7' font-family='monospace' font-size='12' font-weight='bold'>// PBR_RAYTRACE_4K</text>
+</svg>

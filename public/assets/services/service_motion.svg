@@ -1,0 +1,9 @@
+<svg width='400' height='300' viewBox='0 0 400 300' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <rect width='400' height='300' rx='16' fill='#130E05'/>
+  <rect x='1' y='1' width='398' height='298' rx='15' stroke='rgba(255,255,255,0.1)'/>
+  <path d='M30 180 Q 100 40, 200 150 T 370 120' stroke='#F59E0B' stroke-width='4' fill='none' stroke-linecap='round' filter='drop-shadow(0 0 10px #F59E0B)'/>
+  <path d='M30 200 Q 100 80, 200 170 T 370 150' stroke='#EF4444' stroke-width='2' fill='none' stroke-linecap='round' opacity='0.6'/>
+  <path d='M30 220 Q 100 120, 200 190 T 370 180' stroke='#EC4899' stroke-width='1.5' fill='none' stroke-linecap='round' opacity='0.4'/>
+  <circle cx='200' cy='150' r='8' fill='#FFFFFF' stroke='#F59E0B' stroke-width='3'/>
+  <text x='20' y='35' fill='#F59E0B' font-family='monospace' font-size='12' font-weight='bold'>// 60FPS_KINETIC_EASING</text>
+</svg>
