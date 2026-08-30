@@ -117,14 +117,31 @@ export const ContactSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Column: Interactive 3D Lanyard Physics ID Card */}
           <div className="lg:col-span-6 flex flex-col rounded-[28px] sm:rounded-[36px] bg-[#0A0A0A] border-2 border-white/10 overflow-hidden shadow-2xl relative min-h-[580px] sm:min-h-[640px]">
-            {/* Background Watermark Typography */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
-              <span
-                style={{ fontSize: 'clamp(3rem, 7vw, 5rem)', fontFamily: "'Kanit', sans-serif" }}
-                className="font-black uppercase tracking-tighter text-white/[0.04] whitespace-nowrap"
+            {/* Background Watermark Typography (Auto-scaling SVG to ensure 100% of 'KUBENDRA GURU' is visible without clipping) */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden px-4">
+              <svg
+                viewBox="0 0 720 100"
+                className="w-[90%] max-w-[520px] h-auto pointer-events-none select-none drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
               >
-                KUBENDRA GURU
-              </span>
+                <text
+                  x="50%"
+                  y="55%"
+                  dominantBaseline="middle"
+                  textAnchor="middle"
+                  fill="rgba(255, 255, 255, 0.24)"
+                  stroke="rgba(255, 255, 255, 0.35)"
+                  strokeWidth="1.5"
+                  style={{
+                    fontFamily: "'Kanit', sans-serif",
+                    fontWeight: 900,
+                    fontSize: '62px',
+                    letterSpacing: '6px',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  KUBENDRA GURU
+                </text>
+              </svg>
             </div>
 
             {/* Top Toolbar */}
