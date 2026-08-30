@@ -41,7 +41,7 @@ const PROJECTS: ProjectData[] = [
     number: '03',
     name: 'Anna University Study Hub',
     category: 'Full Stack Performance & Learning Platform',
-    liveUrl: 'https://naks-frontend-9c8k-beige.vercel.app/',
+    liveUrl: '',
     col1Img1: '/projects/anna_hub_1.jpg',
     col1Img2: '/projects/anna_hub_2.jpg',
     col2Img: '/projects/anna_hub_main.jpg',

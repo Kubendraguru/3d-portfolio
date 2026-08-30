@@ -120,7 +120,7 @@ export const HeroSection: React.FC = () => {
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 pb-40 py-[90px] max-w-7xl mx-auto w-full flex-1">
         <h1
           style={{ fontFamily: "'Instrument Serif', serif" }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-[#F5F7FA] animate-fade-rise select-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-[-1.5px] max-w-5xl font-normal text-[#F5F7FA] animate-fade-rise select-none drop-shadow-[0_4px_30px_rgba(0,0,0,0.85)]"
         >
           Where{' '}
           <span className="not-italic text-[#38D9FF] font-light drop-shadow-[0_0_25px_rgba(56,217,255,0.45)]">

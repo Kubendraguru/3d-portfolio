@@ -16,10 +16,13 @@ import {
   Sparkles,
   Layers,
   Code2,
+  GitBranch,
+  ExternalLink,
 } from 'lucide-react';
 import { FadeIn } from '../components/FadeIn';
 import { Lanyard } from '../components/Lanyard';
 import { StaggeredGrid, BentoItem } from '../components/StaggeredGrid';
+import { ExpandableBentoGrid, BentoGridItem } from '../components/ExpandableBentoGrid';
 
 export const ContactSection: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -73,6 +76,173 @@ export const ContactSection: React.FC = () => {
     'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=800&auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&auto=format&fit=crop&q=80',
     'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80',
+  ];
+
+  const socialBentoItems: BentoGridItem[] = [
+    {
+      id: 'github',
+      title: 'Repository',
+      subtitle: '@Kubendraguru',
+      description: 'Secure, scalable, and collaborative code management for modern teams.',
+      icon: <Github className="w-6 h-6 text-[#38BDF8]" />,
+      href: 'https://github.com/Kubendraguru',
+      content: (
+        <div className="flex flex-col gap-3 text-left w-full">
+          <p className="text-white/80 leading-relaxed text-xs sm:text-sm">
+            Collaborate on code with your team in a secure environment.
+          </p>
+
+          {/* Repo Visualization Container */}
+          <div className="flex flex-col gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 relative overflow-hidden shadow-inner">
+            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+              <div className="flex items-center gap-2">
+                <GitBranch className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span className="font-mono text-xs font-semibold text-white">Repo Visualization</span>
+              </div>
+              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">
+                🟢 Active Sync
+              </span>
+            </div>
+
+            {/* Featured Repositories List */}
+            <div className="flex flex-col gap-2.5 pt-1">
+              {/* Repo 1: 3D Portfolio */}
+              <div className="p-3 rounded-xl bg-black/50 border border-white/10 hover:border-[#38BDF8]/50 transition-all flex flex-col gap-1.5 group/repo">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-xs sm:text-sm text-white group-hover/repo:text-[#38BDF8] transition-colors truncate">
+                    Kubendraguru / 3d-portfolio
+                  </span>
+                  <a
+                    href="https://github.com/Kubendraguru/3d-portfolio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1 rounded-md bg-white/5 hover:bg-[#38BDF8]/20 text-white/70 hover:text-[#38BDF8] transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+                <p className="text-[11px] text-white/60 line-clamp-2">
+                  Modern interactive 3D developer portfolio built with React 18, Three.js, Rapier physics, GSAP, and Tailwind.
+                </p>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-[#A7B0BA] pt-0.5">
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#3178c6]" /> TypeScript</span>
+                  <span>·</span>
+                  <span className="text-[#38BDF8]">Three.js</span>
+                  <span>·</span>
+                  <span className="text-[#CCFF00]">GSAP</span>
+                </div>
+              </div>
+
+              {/* Repo 2: EcoVista Taj Mahal */}
+              <div className="p-3 rounded-xl bg-black/50 border border-white/10 hover:border-[#38BDF8]/50 transition-all flex flex-col gap-1.5 group/repo">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-xs sm:text-sm text-white group-hover/repo:text-[#38BDF8] transition-colors truncate">
+                    Kubendraguru / ecovista-tajmahal-3d
+                  </span>
+                  <a
+                    href="https://naks-frontend-9c8k-beige.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1 rounded-md bg-white/5 hover:bg-[#38BDF8]/20 text-white/70 hover:text-[#38BDF8] transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+                <p className="text-[11px] text-white/60 line-clamp-2">
+                  Immersive 3D flight tour &amp; interactive cultural monument exploration web application with custom GLSL shaders.
+                </p>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-[#A7B0BA] pt-0.5">
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#e34c26]" /> WebGL</span>
+                  <span>·</span>
+                  <span className="text-[#79CFFF]">3D Audio</span>
+                </div>
+              </div>
+
+              {/* Repo 3: Solespace 3D Footwear */}
+              <div className="p-3 rounded-xl bg-black/50 border border-white/10 hover:border-[#38BDF8]/50 transition-all flex flex-col gap-1.5 group/repo">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-xs sm:text-sm text-white group-hover/repo:text-[#38BDF8] transition-colors truncate">
+                    Kubendraguru / soles-shoe
+                  </span>
+                  <a
+                    href="https://soles-shoe.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1 rounded-md bg-white/5 hover:bg-[#38BDF8]/20 text-white/70 hover:text-[#38BDF8] transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+                <p className="text-[11px] text-white/60 line-clamp-2">
+                  Interactive 3D sneaker showroom &amp; haute footwear store with real-time 360° product material inspection.
+                </p>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-[#A7B0BA] pt-0.5">
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#61dafb]" /> React</span>
+                  <span>·</span>
+                  <span className="text-[#FF5E72]">3D Customizer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'linkedin',
+      title: 'LinkedIn',
+      subtitle: 'Professional',
+      description: 'Career updates, tech articles, and industry collaborations.',
+      icon: <Linkedin className="w-5 h-5 text-[#38BDF8]" />,
+      href: 'https://linkedin.com',
+      content: (
+        <div className="flex flex-col gap-2 text-left">
+          <p className="text-white/80 leading-relaxed text-xs sm:text-sm">
+            Let’s connect on LinkedIn! I share insights on modern web development, 3D creative front-ends, and scalable software solutions.
+          </p>
+          <div className="flex items-center gap-2 text-xs font-mono text-[#79CFFF] pt-1">
+            <span>💼 Open for Full-Stack &amp; 3D Opportunities</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'instagram',
+      title: 'Instagram',
+      subtitle: '@harix_23__',
+      description: 'Behind-the-scenes engineering, design visual flex, and creative life.',
+      icon: <Instagram className="w-5 h-5 text-[#FF5E72]" />,
+      href: 'https://www.instagram.com/harix_23__/',
+      content: (
+        <div className="flex flex-col gap-2 text-left">
+          <p className="text-white/80 leading-relaxed text-xs sm:text-sm">
+            Follow along on Instagram for creative motion teasers, UI micro-interaction demos, and personal developer life updates.
+          </p>
+          <div className="flex items-center gap-2 text-xs font-mono text-[#FF5E72] pt-1">
+            <span>📸 @harix_23__</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'whatsapp',
+      title: 'WhatsApp',
+      subtitle: 'Instant Chat',
+      description: 'Direct messaging for rapid project discussions and quick inquiries.',
+      icon: <MessageCircle className="w-5 h-5 text-[#25D366]" />,
+      href: `https://wa.me/917338790574?text=${encodeURIComponent(
+        "Hi Kubendra, I came across your 3D portfolio and I'd like to discuss a website project!"
+      )}`,
+      content: (
+        <div className="flex flex-col gap-2 text-left">
+          <p className="text-white/80 leading-relaxed text-xs sm:text-sm">
+            Need a rapid turnaround or want to chat about a new website or 3D project? Ping me directly on WhatsApp!
+          </p>
+          <div className="flex items-center gap-2 text-xs font-mono text-[#25D366] pt-1">
+            <span>⚡ +91 7338790574 · Available Daily</span>
+          </div>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -245,36 +415,9 @@ export const ContactSection: React.FC = () => {
               </a>
             </div>
 
-            {/* Social Channels Dock */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 p-4 bg-[#0A0A0A] border-t border-white/10">
-              {[
-                { name: 'GitHub', href: 'https://github.com/Kubendraguru', icon: Github },
-                { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-                { name: 'Instagram', href: 'https://www.instagram.com/harix_23__/', icon: Instagram },
-                {
-                  name: 'WhatsApp',
-                  href: `https://wa.me/917338790574?text=${encodeURIComponent(
-                    "Hi Kubendra, I came across your 3D portfolio and I'd like to discuss a website project!"
-                  )}`,
-                  icon: MessageCircle,
-                },
-              ].map((social) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.04, y: -2 }}
-                    whileTap={{ scale: 0.96 }}
-                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#38BDF8]/40 flex items-center justify-center gap-2 text-xs font-medium text-[#D7E2EA] hover:text-white transition-all shadow-sm"
-                  >
-                    <Icon className="w-3.5 h-3.5 text-[#38BDF8]" />
-                    <span className="truncate">{social.name}</span>
-                  </motion.a>
-                );
-              })}
+            {/* Expandable Bento Social Channels */}
+            <div className="w-full bg-[#0A0A0A] border-t border-white/10 p-3 sm:p-4">
+              <ExpandableBentoGrid items={socialBentoItems} />
             </div>
           </div>
         </div>

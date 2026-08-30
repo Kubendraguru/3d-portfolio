@@ -25,7 +25,6 @@ const ISOMETRIC_COLUMNS_DATA: IsometricCard[][] = [
       title: 'Anna University Study Hub',
       category: 'Full Stack Learning Platform',
       image: '/projects/anna_hub_main.jpg',
-      link: 'https://naks-frontend-9c8k-beige.vercel.app/',
       badge: 'Platform',
     },
     {
@@ -80,7 +79,6 @@ const ISOMETRIC_COLUMNS_DATA: IsometricCard[][] = [
       title: 'Anna University Notes Hub',
       category: 'Course & Class Schedule UI',
       image: '/projects/anna_hub_1.jpg',
-      link: 'https://naks-frontend-9c8k-beige.vercel.app/',
       badge: 'Full Stack',
     },
   ],
@@ -157,9 +155,11 @@ export const IsometricShowcaseGrid: React.FC = () => {
         )}
 
         {/* Top Right External Link Arrow */}
-        <div className="absolute top-4 right-4 sm:top-4.5 sm:right-4.5 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-          <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
-        </div>
+        {card.link && (
+          <div className="absolute top-4 right-4 sm:top-4.5 sm:right-4.5 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
+            <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+        )}
 
         {/* Bottom Info Overlay */}
         <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 z-10 flex flex-col justify-end">
