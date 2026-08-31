@@ -99,8 +99,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isEntered = false }) =
       </video>
 
       {/* 2. Glassmorphic Navigation Bar with React Bits GooeyNav */}
-      <header className="relative z-10 w-full">
-        <nav className="flex items-center justify-between px-6 sm:px-8 py-6 max-w-7xl mx-auto w-full gap-4">
+      <header className="relative z-10 w-full pt-4 sm:pt-6 md:pt-8">
+        <nav className="flex items-center justify-between px-6 sm:px-10 py-4 sm:py-5 max-w-7xl mx-auto w-full gap-4 sm:gap-8">
           {/* Logo / Brand */}
           <a
             href="#home"
