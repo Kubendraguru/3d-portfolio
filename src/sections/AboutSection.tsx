@@ -12,19 +12,19 @@ export const AboutSection: React.FC = () => {
   });
 
   // Heading scroll transforms
-  const headingScale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.85, 1, 1, 0.9]);
-  const headingY = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [-40, 0, 0, -30]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.4, 1, 1, 0.4]);
+  const headingScale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.92, 1, 1, 0.92]);
+  const headingY = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 0, 0, -20]);
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.5, 1, 1, 0.5]);
 
   // Corner 3D Element 1: Top-Left Moon
   const moonX = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-140, 0, 0, -100]);
-  const moonY = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-90, 0, 0, -60]);
+  const moonY = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-60, 0, 0, -40]);
   const moonRotate = useTransform(scrollYProgress, [0, 0.5, 1], [-25, 0, 30]);
   const moonScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.75, 1.05, 1, 0.85]);
 
   // Corner 3D Element 2: Top-Right Lego Brick
   const legoX = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [140, 0, 0, 100]);
-  const legoY = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-90, 0, 0, -60]);
+  const legoY = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-60, 0, 0, -40]);
   const legoRotate = useTransform(scrollYProgress, [0, 0.5, 1], [30, 0, -35]);
   const legoScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.75, 1.05, 1, 0.85]);
 
@@ -56,8 +56,8 @@ export const AboutSection: React.FC = () => {
       ref={containerRef}
       className="relative w-full h-[300vh] bg-[#0C0C0C]"
     >
-      {/* Pinned Viewport Frame */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-5 sm:px-8 md:px-10">
+      {/* Pinned Viewport Frame with generous top padding space */}
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-5 sm:px-8 md:px-10 pt-16 sm:pt-20 md:pt-24 pb-10 sm:pb-14">
         {/* Background Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
@@ -70,7 +70,7 @@ export const AboutSection: React.FC = () => {
             rotate: moonRotate,
             scale: moonScale,
           }}
-          className="absolute top-[6%] sm:top-[8%] md:top-[10%] left-[2%] sm:left-[3%] md:left-[5%] pointer-events-none z-10"
+          className="absolute top-[10%] sm:top-[12%] md:top-[14%] left-[2%] sm:left-[3%] md:left-[5%] pointer-events-none z-10"
         >
           <motion.img
             animate={{
@@ -97,7 +97,7 @@ export const AboutSection: React.FC = () => {
             rotate: legoRotate,
             scale: legoScale,
           }}
-          className="absolute top-[6%] sm:top-[8%] md:top-[10%] right-[2%] sm:right-[3%] md:right-[5%] pointer-events-none z-10"
+          className="absolute top-[10%] sm:top-[12%] md:top-[14%] right-[2%] sm:right-[3%] md:right-[5%] pointer-events-none z-10"
         >
           <motion.img
             animate={{
@@ -175,12 +175,12 @@ export const AboutSection: React.FC = () => {
           {/* Huge Hero Heading */}
           <motion.h2
             style={{
-              fontSize: 'clamp(2.75rem, 9.5vw, 130px)',
+              fontSize: 'clamp(2.4rem, 8vw, 110px)',
               scale: headingScale,
               y: headingY,
               opacity: headingOpacity,
             }}
-            className="hero-heading font-black uppercase leading-none tracking-tight mb-6 sm:mb-8 md:mb-10 select-none"
+            className="hero-heading font-black uppercase leading-none tracking-tight mb-5 sm:mb-7 md:mb-8 select-none"
           >
             About me
           </motion.h2>

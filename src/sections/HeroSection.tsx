@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { GooeyNav } from '../components/GooeyNav';
 
 interface VideoSource {
@@ -17,7 +17,28 @@ export const HERO_VIDEO_OPTIONS: Record<string, VideoSource> = {
 
 const CURRENT_SOURCE: VideoSource = HERO_VIDEO_OPTIONS.finalPort;
 
-export const HeroSection: React.FC = () => {
+export interface HeroSectionProps {
+  isEntered?: boolean;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ isEntered = false }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isEntered) {
+      video.currentTime = 0;
+      video.play().catch(() => {
+        // Fallback if browser requires user gesture
+      });
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [isEntered]);
+
   const navItems = [
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
@@ -58,13 +79,14 @@ export const HeroSection: React.FC = () => {
       id="home"
       className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-background"
     >
-      {/* 1. Fullscreen Looping Background Video */}
+      {/* 1. Fullscreen Looping Background Video (Only plays when entered) */}
       <video
+        ref={videoRef}
         key={CURRENT_SOURCE.mp4}
-        autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none select-none"
       >
         {CURRENT_SOURCE.webm && (
@@ -157,7 +179,8 @@ export const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative z-10 w-full h-4"></div>
+      {/* Bottom spacer with generous gap and smooth transition into About section */}
+      <div className="relative z-10 w-full h-24 sm:h-32 md:h-40 bg-gradient-to-b from-transparent via-[#0C0C0C]/70 to-[#0C0C0C] pointer-events-none" />
     </section>
   );
 };

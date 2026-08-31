@@ -10,14 +10,15 @@ import {
   Linkedin,
   Instagram,
   MessageCircle,
-  Clock,
-  MapPin,
   RotateCcw,
   Sparkles,
   Layers,
   Code2,
   GitBranch,
   ExternalLink,
+  Activity,
+  Cpu,
+  Zap,
 } from 'lucide-react';
 import { FadeIn } from '../components/FadeIn';
 import { Lanyard } from '../components/Lanyard';
@@ -315,9 +316,10 @@ export const ContactSection: React.FC = () => {
             </div>
 
             {/* Top Toolbar */}
-            <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-20">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-white/70 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-                ⚡ 3D Physics Pass
+            <div className="absolute top-4 left-5 right-5 flex items-center justify-between z-20">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-white/80 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+                <Zap className="w-3 h-3 text-[#38BDF8]" />
+                <span>3D Physics Pass</span>
               </span>
 
               <div className="flex items-center gap-2">
@@ -348,15 +350,32 @@ export const ContactSection: React.FC = () => {
               />
             </div>
 
-            {/* Card Bottom Meta Bar */}
-            <div className="p-3.5 sm:p-4 bg-[#121212]/90 border-t border-white/10 backdrop-blur-md flex items-center justify-between font-mono text-xs text-[#888888] relative z-20">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#38BDF8]" />
-                <span className="text-white">India · Global Remote</span>
+            {/* Technical Engine & Architecture Diagnostics Dock (Strict Single Line) */}
+            <div className="px-3 py-2 sm:px-4 sm:py-2.5 bg-[#090D12]/95 border-t border-white/10 backdrop-blur-xl flex items-center justify-between gap-1.5 sm:gap-2 font-mono text-[10px] sm:text-[11px] whitespace-nowrap overflow-hidden relative z-20 shadow-2xl">
+              {/* Left: 3D Engine Architecture & WASM Physics */}
+              <div className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-[#38BDF8] font-bold shrink-0">
+                <Cpu className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span>Rapier WASM · WebGL 2.0</span>
               </div>
-              <div className="flex items-center gap-1.5 text-emerald-400">
-                <Clock className="w-3.5 h-3.5" />
-                <span>IST (UTC+5:30)</span>
+
+              {/* Center: Live Render Telemetry */}
+              <div className="flex items-center gap-1.5 text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md font-bold shrink-0">
+                <Activity className="w-3 h-3 text-emerald-400" />
+                <span>60 FPS</span>
+                <span className="text-white/40 font-normal hidden sm:inline">· 0.4ms</span>
+              </div>
+
+              {/* Right: Technical Stack Badges */}
+              <div className="flex items-center gap-1 shrink-0">
+                <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white/80 text-[10px]">
+                  React 18
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-sky-300 text-[10px]">
+                  TypeScript
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-purple-300 text-[10px]">
+                  Three.js
+                </span>
               </div>
             </div>
           </div>

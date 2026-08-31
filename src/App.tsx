@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { PageLoader } from './components/PageLoader';
 import { HeroSection } from './sections/HeroSection';
 import { AboutSection } from './sections/AboutSection';
 import { ServicesSection } from './sections/ServicesSection';
@@ -10,13 +11,18 @@ import { ContactSection } from './sections/ContactSection';
 import { CinematicFooterSection } from './sections/CinematicFooterSection';
 
 const App: React.FC = () => {
+  const [isEntered, setIsEntered] = useState(false);
+
   return (
     <main
       style={{ overflowX: 'clip' }}
       className="relative w-full min-h-screen bg-[#0C0C0C] text-[#D7E2EA] font-kanit selection:bg-[#7621B0] selection:text-white"
     >
-      {/* 1. Hero Section */}
-      <HeroSection />
+      {/* 0. 3D Animated Typing Keyboard Page Loader */}
+      <PageLoader onLoaded={() => setIsEntered(true)} />
+
+      {/* 1. Hero Section (Video starts playing from 0:00 only after entering) */}
+      <HeroSection isEntered={isEntered} />
 
       {/* 2. About Section */}
       <AboutSection />
